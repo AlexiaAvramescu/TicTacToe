@@ -3,7 +3,7 @@ import 'package:tic_tac_toe_lib/src/tic_tac_toe_api.dart';
 class Game implements IGame {
   Game({this.turn = ETurn.O});
 
-  final ETurn turn;
+  ETurn turn;
   late final Board board;
   final EGameResult? result = null;
 
@@ -30,7 +30,9 @@ class Game implements IGame {
   }
   @override
   void makeMove(Position pos) {
+    board.matrix[pos.x][pos.y] = turn.name;
 
+    turn = turn == ETurn.O ? ETurn.X : ETurn.O;
   }
 }
 
