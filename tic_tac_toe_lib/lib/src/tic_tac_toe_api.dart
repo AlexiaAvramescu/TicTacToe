@@ -1,4 +1,5 @@
-import 'package:tic_tac_toe_lib/src/tic_tac_toe_lib_base.dart';
+import 'package:tic_tac_toe_lib/src/game_class.dart';
+import 'position_class.dart';
 
 enum ETurn { X, O }
 

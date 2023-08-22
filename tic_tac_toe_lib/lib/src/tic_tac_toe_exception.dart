@@ -1,6 +1,5 @@
 class XOGameException implements Exception {
   XOGameException(this.message);
-
   final String message;
 }
 
