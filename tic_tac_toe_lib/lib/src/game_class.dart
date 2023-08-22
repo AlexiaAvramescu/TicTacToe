@@ -1,4 +1,5 @@
 import 'package:tic_tac_toe_lib/src/tic_tac_toe_api.dart';
+import 'XOGameException.dart';
 
 class Game implements IGame {
   Game({this.turn = ETurn.O});
@@ -16,18 +17,17 @@ class Game implements IGame {
 
   @override
   bool isInputValid(Position pos) {
-    if(!pos.isPositionValid){
-      return false;
-      // exception
+    if (!pos.isPositionValid) {
+      InvalidInputException();
     }
 
-    if(board.matrix[pos.x][pos.y] != null){
-      return false;
-      //exception
+    if (board.matrix[pos.x][pos.y] != null) {
+      InvalidInputException();
     }
 
     return true;
   }
+
   @override
   void makeMove(Position pos) {
     board.matrix[pos.x][pos.y] = turn.name;
