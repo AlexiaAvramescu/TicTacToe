@@ -3,6 +3,8 @@
 /// More dartdocs go here.
 library;
 
-export 'src/game_class.dart';
+export 'src/game_api/igame.dart';
+export 'src/game_api/position.dart';
+export 'src/game_api/game_exception.dart';
 
 // TODO: Export any libraries intended for clients of this package.
