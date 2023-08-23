@@ -1,4 +1,5 @@
 import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
+import 'package:tic_tac_toe_lib/src/istrategy.dart';
 import 'game_api/game_exception.dart';
 import 'game_api/position.dart';
 import 'board.dart';
@@ -17,6 +18,7 @@ class Game implements IGame {
   ETurn _turn;
   final Board _board;
   EGameResult? _result;
+  IStrategy? _strategy;
 
   @override
   bool get isGameOver => _result == null ? false : true;
@@ -24,6 +26,8 @@ class Game implements IGame {
   EGameResult? get gameResult => _result;
   @override
   List<List<String?>> get board => _board.matrix;
+  @override
+  set strategy(IStrategy value) => _strategy = value;
 
   void isInputValid(Position pos) {
     if (!pos.isPositionValid) {
@@ -45,6 +49,8 @@ class Game implements IGame {
     } else if (_board.isMatrixFull()) {
       _result = EGameResult.draw;
     }
+
+    
 
     _turn = _turn == ETurn.O ? ETurn.X : ETurn.O;
   }

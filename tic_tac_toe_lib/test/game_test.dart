@@ -4,7 +4,7 @@ import 'package:tic_tac_toe_lib/src/game_api/game_exception.dart';
 import 'package:tic_tac_toe_lib/src/game_api/position.dart';
 
 void main() {
-  group('Function Test: isInputValid()', () {
+  group('Function isInputValid tests', () {
     final game = Game(boardConfig: [
       ['-', '-', '-'],
       ['-', 'O', '-'],
@@ -32,4 +32,28 @@ void main() {
       expect(() => game.isInputValid(Position(0, 0)), isNot(throwsException));
     });
   });
+
+
+  group('Function makeMove tests', () {
+  //   final game = Game(boardConfig: [
+  //     ['-', '-', '-'],
+  //     ['-', 'O', '-'],
+  //     ['-', 'O', '-']
+  //   ]);
+
+  //   test('', () {
+
+  //   });
+
+  //   test('', () {
+
+  //   });
+
+  //   test('', () {
+
+  //   });
+
+  });
+
+
 }

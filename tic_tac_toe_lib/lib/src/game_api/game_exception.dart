@@ -5,6 +5,7 @@ class XOGameException implements Exception {
 
 class InvalidInputException extends XOGameException {
   InvalidInputException(this.message) : super(message);
+  @override
   final String message;
 }
 
