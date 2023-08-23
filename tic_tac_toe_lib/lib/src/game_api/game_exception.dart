@@ -4,5 +4,15 @@ class XOGameException implements Exception {
 }
 
 class InvalidInputException extends XOGameException {
-  InvalidInputException() : super('Invalid input.');
+  InvalidInputException(this.message) : super(message);
+  final String message;
 }
+
+class OutOfBoundInputException extends InvalidInputException {
+  OutOfBoundInputException() : super('Out of bound input.');
+}
+
+class OccupiedPositionException extends InvalidInputException{
+  OccupiedPositionException() : super('The position is occupied.');
+}
+

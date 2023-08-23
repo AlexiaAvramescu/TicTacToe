@@ -4,7 +4,15 @@ import 'game_api/position.dart';
 import 'board.dart';
 
 class Game implements IGame {
-  Game({ETurn turn = ETurn.O}) : _turn = turn, _board = Board();
+  Game(
+      {ETurn turn = ETurn.X,
+      List<List<String>> boardConfig = const [
+        ['-', '-', '-'],
+        ['-', '-', '-'],
+        ['-', '-', '-']
+      ]})
+      : _turn = turn,
+        _board = Board(matrixConfig: boardConfig);
 
   ETurn _turn;
   final Board _board;
@@ -19,11 +27,11 @@ class Game implements IGame {
 
   void isInputValid(Position pos) {
     if (!pos.isPositionValid) {
-      throw InvalidInputException();
+      throw OutOfBoundInputException();
     }
 
     if (_board.matrix[pos.x][pos.y] != '-') {
-      throw InvalidInputException();
+      throw OccupiedPositionException();
     }
   }
 

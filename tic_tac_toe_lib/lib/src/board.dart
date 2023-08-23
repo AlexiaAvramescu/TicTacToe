@@ -2,12 +2,12 @@ import 'package:tic_tac_toe_lib/src/game_api/position.dart';
 import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
 
 class Board {
-  Board() {
+  Board({required List<List<String>> matrixConfig }) {
     for (var i = 0; i < 3; i++) {
-      final List<String> list = [];
-      for (var i = 0; i < 3; i++) {
-        list.add('-');
-      }
+      final List<String> list = matrixConfig[i];
+      // for (var i = 0; i < 3; i++) {
+      //   list.add('-');
+      // }
       _matrix.add(list);
     }
   }
