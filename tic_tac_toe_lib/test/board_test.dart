@@ -12,7 +12,7 @@ void main() {
         ['-', 'O', '-'],
         ['X', 'O', 'X']
       ]);
-      expect(board.currentPlayerWon(ETurn.O), isTrue);
+      expect(board.currentPlayerWon(EMark.O), isTrue);
     });
 
     test('Player O won #2', () {
@@ -21,7 +21,7 @@ void main() {
         ['-', 'X', 'O'],
         ['O', 'O', 'O']
       ]);
-      expect(board.currentPlayerWon(ETurn.O), isTrue);
+      expect(board.currentPlayerWon(EMark.O), isTrue);
     });
 
     test('Player O won on full board', () {
@@ -30,7 +30,7 @@ void main() {
         ['X', 'X', 'O'],
         ['O', 'O', 'O']
       ]);
-      expect(board.currentPlayerWon(ETurn.O), isTrue);
+      expect(board.currentPlayerWon(EMark.O), isTrue);
     });
 
     test('Player O didnt win', () {
@@ -39,7 +39,7 @@ void main() {
         ['-', 'O', '-'],
         ['-', 'O', '-']
       ]);
-      expect(board.currentPlayerWon(ETurn.O), isFalse);
+      expect(board.currentPlayerWon(EMark.O), isFalse);
     });
 
     test('Player O didnt win full board', () {
@@ -48,9 +48,8 @@ void main() {
         ['X', 'X', 'O'],
         ['O', 'X', 'O']
       ]);
-      expect(board.currentPlayerWon(ETurn.O), isFalse);
+      expect(board.currentPlayerWon(EMark.O), isFalse);
     });
-
   });
 
 //  group('Function isMatrixFull', () => null)

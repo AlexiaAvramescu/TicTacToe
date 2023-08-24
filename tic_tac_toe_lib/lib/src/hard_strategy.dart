@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 import 'package:tic_tac_toe_lib/src/board.dart';
@@ -7,17 +6,17 @@ import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 
 class HardStrategy implements IStrategy {
   @override
-  Position getMove(Board board, ETurn player) {
+  Position getMove(Board board, EMark player) {
     int bestVal = -1000;
     Position bestMove = Position(-1, -1);
-    List<List<String?>> matrix = board.matrix;
+    MarkMatrix matrix = board.matrix;
 
     for (var i = 0; i < 3; i++) {
       for (var j = 0; j < 3; j++) {
-        if (matrix[i][j] == '-') {
-          matrix[i][j] = player.name;
+        if (matrix[i][j] == EMark.empty) {
+          matrix[i][j] = player;
           int moveVal = minimax(board, 0, false, player);
-          matrix[i][j] = '-';
+          matrix[i][j] = EMark.empty;
 
           if (moveVal > bestVal) {
             bestVal = moveVal;
@@ -32,17 +31,17 @@ class HardStrategy implements IStrategy {
 
   bool isTermianlState(Board board) =>
       board.isMatrixFull() ||
-      board.currentPlayerWon(ETurn.O) ||
-      board.currentPlayerWon(ETurn.O);
+      board.currentPlayerWon(EMark.O) ||
+      board.currentPlayerWon(EMark.O);
 
-  int stateValue(Board board, ETurn player) {
+  int stateValue(Board board, EMark player) {
     if (board.currentPlayerWon(player)) return 10;
     if (board.currentPlayerWon(player.opposite)) return -10;
     return 0;
   }
 
-  int minimax(Board board, int depth, bool isMax, ETurn player) {
-    List<List<String?>> matrix = board.matrix;
+  int minimax(Board board, int depth, bool isMax, EMark player) {
+    MarkMatrix matrix = board.matrix;
 
     if (isTermianlState(board)) return stateValue(board, player);
 
@@ -51,10 +50,10 @@ class HardStrategy implements IStrategy {
 
       for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
-          if (matrix[i][j] == '-') {
-            matrix[i][j] = player.name;
+          if (matrix[i][j] == EMark.empty) {
+            matrix[i][j] = player;
             best = max(best, minimax(board, depth + 1, !isMax, player));
-            matrix[i][j] = '-';
+            matrix[i][j] = EMark.empty;
           }
         }
       }
@@ -64,10 +63,10 @@ class HardStrategy implements IStrategy {
 
       for (var i = 0; i < 3; i++) {
         for (var j = 0; j < 3; j++) {
-          if (matrix[i][j] == '-') {
-            matrix[i][j] = player.opposite.name;
+          if (matrix[i][j] == EMark.empty) {
+            matrix[i][j] = player.opposite;
             best = min(best, minimax(board, depth + 1, !isMax, player));
-            matrix[i][j] = '-';
+            matrix[i][j] = EMark.empty;
           }
         }
       }

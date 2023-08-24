@@ -6,52 +6,55 @@ import 'board.dart';
 
 class Game implements IGame {
   Game(
-      {ETurn turn = ETurn.X,
+      {EMark currentPlayer = EMark.X,
       List<List<String>> boardConfig = const [
         ['-', '-', '-'],
         ['-', '-', '-'],
         ['-', '-', '-']
       ]})
-      : _turn = turn,
-        _board = Board(matrixConfig: boardConfig);
+      : _currentPlayer = currentPlayer,
+        _board = Board(matrixConfig: boardConfig),
+        _state = EGameState.playing;
 
-  ETurn _turn;
+  EMark _currentPlayer;
   final Board _board;
-  EGameResult? _result;
+  EGameState _state;
   IStrategy? _strategy;
 
   @override
-  bool get isGameOver => _result == null ? false : true;
+  bool get isGameOver => _state.isGameOver;
   @override
-  EGameResult? get gameResult => _result;
+  EGameState? get gameResult => _state;
   @override
-  List<List<String?>> get board => _board.matrix;
+  MarkMatrix get board => _board.matrix;
   @override
   set strategy(IStrategy value) => _strategy = value;
 
-  void isInputValid(Position pos) {
+  void validateInput(Position pos) {
     if (!pos.isPositionValid) {
       throw OutOfBoundInputException();
     }
 
-    if (_board.matrix[pos.x][pos.y] != '-') {
+    if (_board.matrix[pos.x][pos.y] != EMark.empty) {
       throw OccupiedPositionException();
     }
   }
 
+  void play() {}
+
   @override
   void makeMove(Position pos) {
-    isInputValid(pos);
-    _board.makeMove(pos, _turn);
+    validateInput(pos);
+    _board.makeMove(pos, _currentPlayer);
 
-    if (_board.currentPlayerWon(_turn)) {
-      _result = _turn == ETurn.O ? EGameResult.oWon : EGameResult.xWon;
+    if (_board.currentPlayerWon(_currentPlayer)) {
+      _state = _currentPlayer == EMark.O ? EGameState.oWon : EGameState.xWon;
     } else if (_board.isMatrixFull()) {
-      _result = EGameResult.draw;
+      _state = EGameState.draw;
     }
 
-    
+    if (_strategy != null) {}
 
-    _turn = _turn == ETurn.O ? ETurn.X : ETurn.O;
+    _currentPlayer = _currentPlayer == EMark.O ? EMark.X : EMark.O;
   }
 }

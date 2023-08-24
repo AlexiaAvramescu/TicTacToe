@@ -9,7 +9,7 @@ Position getMove(String input) {
       parts.where((part) => part.isNotEmpty).map(int.parse).toList();
   Position move = Position(numbers[0], numbers[1]);
   return move;
-} 
+}
 // TOREDO
 
 void main(List<String> arguments) {
@@ -29,7 +29,11 @@ void main(List<String> arguments) {
 
       for (int i = 0; i < 3; i++) {
         for (int j = 0; j < 3; j++) {
-          stdout.write(game.board[i][j]);
+          if (game.board[i][j].isEmpty) {
+            stdout.write('.');
+          } else {
+            stdout.write(game.board[i][j].name);
+          }
           stdout.write(' ');
         }
         print('\n');

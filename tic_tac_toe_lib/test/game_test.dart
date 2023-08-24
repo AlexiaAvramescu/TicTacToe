@@ -11,49 +11,44 @@ void main() {
       ['-', 'O', '-']
     ]);
 
-    setUp(() {
-    });
+    setUp(() {});
 
     test('Out of Bound Input', () {
-      expect(() => game.isInputValid(Position(-1, 4)),
+      expect(() => game.validateInput(Position(-1, 4)),
           throwsA(isA<OutOfBoundInputException>()));
     });
 
     test('Occupied Position Input', () {
-      expect(() => game.isInputValid(Position(1, 1)),
+      expect(() => game.validateInput(Position(1, 1)),
           throwsA(isA<OccupiedPositionException>()));
     });
 
     test('ValidInput #1', () {
-      expect(() => game.isInputValid(Position(1, 0)), isNot(throwsException));
+      expect(() => game.validateInput(Position(1, 0)), isNot(throwsException));
     });
 
     test('ValidInput #2', () {
-      expect(() => game.isInputValid(Position(0, 0)), isNot(throwsException));
+      expect(() => game.validateInput(Position(0, 0)), isNot(throwsException));
     });
   });
 
-
   group('Function makeMove tests', () {
-  //   final game = Game(boardConfig: [
-  //     ['-', '-', '-'],
-  //     ['-', 'O', '-'],
-  //     ['-', 'O', '-']
-  //   ]);
+    //   final game = Game(boardConfig: [
+    //     ['-', '-', '-'],
+    //     ['-', 'O', '-'],
+    //     ['-', 'O', '-']
+    //   ]);
 
-  //   test('', () {
+    //   test('', () {
 
-  //   });
+    //   });
 
-  //   test('', () {
+    //   test('', () {
 
-  //   });
+    //   });
 
-  //   test('', () {
+    //   test('', () {
 
-  //   });
-
+    //   });
   });
-
-
 }
