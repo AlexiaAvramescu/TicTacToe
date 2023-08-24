@@ -14,7 +14,7 @@ Position getMove(String input) {
 
 void main(List<String> arguments) {
   final game = IGame();
-  game.strategy = IStrategy(EStrategy.medium);
+  game.strategy = IStrategy(EStrategy.hard);
 
   while (!game.isGameOver) {
     String? input;
