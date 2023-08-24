@@ -1,5 +1,6 @@
 import 'package:tic_tac_toe_lib/src/game_api/position.dart';
 import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
+import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 
 class Board {
   Board({required List<List<String>> matrixConfig}) {
@@ -37,7 +38,14 @@ class Board {
     ]);
   }
 
+  void validateInput(Position pos) {
+    if (!pos.isPositionValid) throw OutOfBoundInputException();
+
+    if (_matrix[pos.x][pos.y] != EMark.empty) throw OccupiedPositionException();
+  }
+
   void makeMove(Position pos, EMark currentPlayer) {
+    validateInput(pos);
     _matrix[pos.x][pos.y] = currentPlayer;
   }
 

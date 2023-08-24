@@ -14,7 +14,7 @@ Position getMove(String input) {
 
 void main(List<String> arguments) {
   final game = IGame();
-  game.strategy = IStrategy(EStrategy.hard);
+  game.strategy = IStrategy(EStrategy.medium);
 
   while (!game.isGameOver) {
     String? input;
@@ -27,22 +27,22 @@ void main(List<String> arguments) {
 
     try {
       game.makeMove(move);
-
-      for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-          if (game.board[i][j].isEmpty) {
-            stdout.write('.');
-          } else {
-            stdout.write(game.board[i][j].name);
-          }
-          stdout.write(' ');
-        }
-        print('\n');
-      }
     } on InvalidInputException catch (e) {
       print(e.message);
     } on StrategyGetMoveError catch (e) {
       print(e.message);
+    }
+
+    for (int i = 0; i < 3; i++) {
+      for (int j = 0; j < 3; j++) {
+        if (game.board[i][j].isEmpty) {
+          stdout.write('.');
+        } else {
+          stdout.write(game.board[i][j].name);
+        }
+        stdout.write(' ');
+      }
+      print('\n');
     }
   }
 

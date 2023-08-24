@@ -37,40 +37,35 @@ class Game implements IGame {
     _state = EGameState.playing;
   }
 
-  void validateInput(Position pos) {
-    if (!pos.isPositionValid) throw OutOfBoundInputException();
-
-    if (_board.matrix[pos.x][pos.y] != EMark.empty)
-      throw OccupiedPositionException();
-  }
-
   @override
   void makeMove(Position pos) {
-    validateInput(pos);
     _board.makeMove(pos, _currentPlayer);
+    verifyState();
 
-    if (_board.currentPlayerWon(_currentPlayer)) {
-      _state = _currentPlayer == EMark.O ? EGameState.oWon : EGameState.xWon;
-    } else if (_board.isMatrixFull()) {
-      _state = EGameState.draw;
-    }
+    if (isGameOver) return;
 
     _currentPlayer = _currentPlayer.opposite;
 
     if (_strategy != null && _currentPlayer != EMark.X) {
-      Position pos = _strategy!.getMove(_board, _currentPlayer);
+      Position pos = _strategy!.getMove(board: _board, player: _currentPlayer);
 
       if (!pos.isPositionValid) throw StrategyGetMoveError();
 
-      validateInput(pos);
       _board.makeMove(pos, _currentPlayer);
-
-      if (_board.currentPlayerWon(_currentPlayer)) {
-        _state = _currentPlayer == EMark.O ? EGameState.oWon : EGameState.xWon;
-      } else if (_board.isMatrixFull()) {
-        _state = EGameState.draw;
-      }
+      verifyState();
       _currentPlayer = _currentPlayer.opposite;
     }
   }
+
+  void verifyState() {
+    if (_board.currentPlayerWon(_currentPlayer)) {
+      EGameState state =
+          _currentPlayer == EMark.O ? EGameState.oWon : EGameState.xWon;
+      updateState(state);
+    } else if (_board.isMatrixFull()) {
+      updateState(EGameState.draw);
+    }
+  }
+
+  void updateState(EGameState state) => _state = state;
 }
