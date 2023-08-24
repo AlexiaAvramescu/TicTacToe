@@ -21,10 +21,25 @@ class Board {
     }
   }
 
-  //late final List<List<String?>> _matrix; -- CHANGED
   final MarkMatrix _matrix = [];
 
   MarkMatrix get matrix => _matrix;
+
+  void initializeBoard(MarkMatrix matrix, List<List<String>> matrixConfig) {
+    for (var i = 0; i < 3; i++) {
+      for (var j = 0; j < 3; j++) {
+        if (matrixConfig[i][j] == 'X') {
+          _matrix[i].add(EMark.X);
+        } else if (matrixConfig[i][j] == 'O') {
+          _matrix[i].add(EMark.O);
+        } else if (matrixConfig[i][j] == '-') {
+          _matrix[i].add(EMark.empty);
+        }
+      }
+    }
+  }
+
+  void restart() {}
 
   void makeMove(Position pos, EMark turn) {
     _matrix[pos.x][pos.y] = turn;

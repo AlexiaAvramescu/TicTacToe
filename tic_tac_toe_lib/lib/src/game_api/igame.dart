@@ -8,7 +8,10 @@ enum EMark {
   empty;
 
   bool get isEmpty => this == empty;
-  EMark get opposite => this == EMark.O ? EMark.X : EMark.O;
+  EMark get opposite {
+    if (!isEmpty) return this == EMark.O ? EMark.X : EMark.O;
+    return this;
+  }
 }
 
 enum EGameState {

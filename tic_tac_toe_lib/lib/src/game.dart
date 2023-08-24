@@ -30,6 +30,13 @@ class Game implements IGame {
   @override
   set strategy(IStrategy value) => _strategy = value;
 
+  @override
+  void restart() {
+    _board.restart();
+    _currentPlayer = EMark.X;
+    _state = EGameState.playing;
+  }
+
   void validateInput(Position pos) {
     if (!pos.isPositionValid) {
       throw OutOfBoundInputException();
@@ -39,8 +46,6 @@ class Game implements IGame {
       throw OccupiedPositionException();
     }
   }
-
-  void play() {}
 
   @override
   void makeMove(Position pos) {
@@ -53,8 +58,15 @@ class Game implements IGame {
       _state = EGameState.draw;
     }
 
-    if (_strategy != null) {}
+    if (_strategy != null && _currentPlayer != EMark.X) {
+      Position? pos = _strategy?.getMove(_board, _currentPlayer);
 
-    _currentPlayer = _currentPlayer == EMark.O ? EMark.X : EMark.O;
+      if (pos != null) {
+        _currentPlayer = _currentPlayer.opposite;
+        makeMove(pos);
+      }
+    } else {
+      _currentPlayer = _currentPlayer.opposite;
+    }
   }
 }
