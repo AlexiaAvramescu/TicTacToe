@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:tic_tac_toe_lib/src/board.dart';
-import 'package:tic_tac_toe_lib/src/istrategy.dart';
+import 'package:tic_tac_toe_lib/src/game_api/istrategy.dart';
 import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 
 class HardStrategy implements IStrategy {
@@ -32,7 +32,7 @@ class HardStrategy implements IStrategy {
   bool isTermianlState(Board board) =>
       board.isMatrixFull() ||
       board.currentPlayerWon(EMark.O) ||
-      board.currentPlayerWon(EMark.O);
+      board.currentPlayerWon(EMark.X);
 
   int stateValue(Board board, EMark player) {
     if (board.currentPlayerWon(player)) return 10;

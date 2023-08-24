@@ -1,5 +1,5 @@
 import 'package:tic_tac_toe_lib/src/game.dart';
-import 'package:tic_tac_toe_lib/src/istrategy.dart';
+import 'package:tic_tac_toe_lib/src/game_api/istrategy.dart';
 import 'position.dart';
 
 enum EMark {
@@ -36,5 +36,6 @@ abstract class IGame {
 
   set strategy(IStrategy value);
 
+  void restart();
   void makeMove(Position pos);
 }

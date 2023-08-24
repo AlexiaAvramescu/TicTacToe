@@ -1,5 +1,5 @@
 import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
-import 'package:tic_tac_toe_lib/src/istrategy.dart';
+import 'package:tic_tac_toe_lib/src/game_api/istrategy.dart';
 import 'game_api/game_exception.dart';
 import 'game_api/position.dart';
 import 'board.dart';
@@ -38,13 +38,10 @@ class Game implements IGame {
   }
 
   void validateInput(Position pos) {
-    if (!pos.isPositionValid) {
-      throw OutOfBoundInputException();
-    }
+    if (!pos.isPositionValid) throw OutOfBoundInputException();
 
-    if (_board.matrix[pos.x][pos.y] != EMark.empty) {
+    if (_board.matrix[pos.x][pos.y] != EMark.empty)
       throw OccupiedPositionException();
-    }
   }
 
   @override
@@ -58,14 +55,21 @@ class Game implements IGame {
       _state = EGameState.draw;
     }
 
-    if (_strategy != null && _currentPlayer != EMark.X) {
-      Position? pos = _strategy?.getMove(_board, _currentPlayer);
+    _currentPlayer = _currentPlayer.opposite;
 
-      if (pos != null) {
-        _currentPlayer = _currentPlayer.opposite;
-        makeMove(pos);
+    if (_strategy != null && _currentPlayer != EMark.X) {
+      Position pos = _strategy!.getMove(_board, _currentPlayer);
+
+      if (!pos.isPositionValid) throw StrategyGetMoveError();
+
+      validateInput(pos);
+      _board.makeMove(pos, _currentPlayer);
+
+      if (_board.currentPlayerWon(_currentPlayer)) {
+        _state = _currentPlayer == EMark.O ? EGameState.oWon : EGameState.xWon;
+      } else if (_board.isMatrixFull()) {
+        _state = EGameState.draw;
       }
-    } else {
       _currentPlayer = _currentPlayer.opposite;
     }
   }

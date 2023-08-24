@@ -14,6 +14,7 @@ Position getMove(String input) {
 
 void main(List<String> arguments) {
   final game = IGame();
+  game.strategy = IStrategy(EStrategy.hard);
 
   while (!game.isGameOver) {
     String? input;
@@ -39,6 +40,8 @@ void main(List<String> arguments) {
         print('\n');
       }
     } on InvalidInputException catch (e) {
+      print(e.message);
+    } on StrategyGetMoveError catch (e) {
       print(e.message);
     }
   }

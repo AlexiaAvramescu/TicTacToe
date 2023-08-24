@@ -8,24 +8,14 @@ class Board {
       _matrix.add(list);
     }
 
-    for (var i = 0; i < 3; i++) {
-      for (var j = 0; j < 3; j++) {
-        if (matrixConfig[i][j] == 'X') {
-          _matrix[i].add(EMark.X);
-        } else if (matrixConfig[i][j] == 'O') {
-          _matrix[i].add(EMark.O);
-        } else if (matrixConfig[i][j] == '-') {
-          _matrix[i].add(EMark.empty);
-        }
-      }
-    }
+    initializeBoard(matrixConfig: matrixConfig);
   }
 
   final MarkMatrix _matrix = [];
 
   MarkMatrix get matrix => _matrix;
 
-  void initializeBoard(MarkMatrix matrix, List<List<String>> matrixConfig) {
+  void initializeBoard({required List<List<String>> matrixConfig}) {
     for (var i = 0; i < 3; i++) {
       for (var j = 0; j < 3; j++) {
         if (matrixConfig[i][j] == 'X') {
@@ -39,10 +29,16 @@ class Board {
     }
   }
 
-  void restart() {}
+  void restart() {
+    initializeBoard(matrixConfig: [
+      ['-', '-', '-'],
+      ['-', '-', '-'],
+      ['-', '-', '-']
+    ]);
+  }
 
-  void makeMove(Position pos, EMark turn) {
-    _matrix[pos.x][pos.y] = turn;
+  void makeMove(Position pos, EMark currentPlayer) {
+    _matrix[pos.x][pos.y] = currentPlayer;
   }
 
   bool isMatrixFull() {
