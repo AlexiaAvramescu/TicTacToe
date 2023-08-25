@@ -1,6 +1,3 @@
-import 'dart:html';
-import 'dart:mirrors';
-
 import 'package:test/test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
@@ -22,10 +19,21 @@ void main() {
 
     test('OnMadeMove Test', () {
       game.makeMove(Position(1, 1));
+      game.makeMove(Position(2, 0));
+      game.makeMove(Position(0, 0));
+      game.makeMove(Position(2, 1));
 
-      verify(console.onMarkMade()).called(1);
+      verify(console.onMarkMade()).called(4);
     });
-    test('OnGameOver Test', () {});
+    test('OnGameOver Test', () {
+      game.makeMove(Position(1, 1));
+      game.makeMove(Position(2, 0));
+      game.makeMove(Position(0, 0));
+      game.makeMove(Position(2, 1));
+      game.makeMove(Position(2, 2));
+
+      verify(console.onGameOver(EGameState.xWon)).called(1);
+    });
     test('OnRestart Test', () {
       game.playerComand(ECommand.restart);
 
