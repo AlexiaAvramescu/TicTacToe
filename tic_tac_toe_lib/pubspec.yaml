@@ -8,6 +8,9 @@ environment:
 
 # Add regular dependencies here.
 dependencies:
+  equatable: ^2.0.5
+  logger: ^2.0.1
+  mockito: ^5.4.2
   # path: ^1.8.0
 
 dev_dependencies:

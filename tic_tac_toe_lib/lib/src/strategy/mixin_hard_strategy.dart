@@ -18,7 +18,7 @@ mixin HardStrategyGetMove {
 
           if (moveVal > bestVal) {
             bestVal = moveVal;
-            bestMove.changeTo(x: i, y: j);
+            bestMove = Position(i, j);
           }
         }
       }
@@ -28,20 +28,18 @@ mixin HardStrategyGetMove {
   }
 
   bool isTermianlState(Board board) =>
-      board.isMatrixFull() ||
-      board.currentPlayerWon(EMark.O) ||
-      board.currentPlayerWon(EMark.X);
+      board.currentPlayerWon(EMark.O) || board.currentPlayerWon(EMark.X) || board.isMatrixFull();
 
-  int stateValue(Board board, EMark player) {
-    if (board.currentPlayerWon(player)) return 10;
-    if (board.currentPlayerWon(player.opposite)) return -10;
+  int stateValue(Board board, EMark player, int depth) {
+    if (board.currentPlayerWon(player)) return 10 - depth;
+    if (board.currentPlayerWon(player.opposite)) return depth - 10;
     return 0;
   }
 
   int minimax(Board board, int depth, bool isMax, EMark player) {
     MarkMatrix matrix = board.matrix;
 
-    if (isTermianlState(board)) return stateValue(board, player);
+    if (isTermianlState(board)) return stateValue(board, player, depth);
 
     if (isMax) {
       int best = -1000;
@@ -55,6 +53,7 @@ mixin HardStrategyGetMove {
           }
         }
       }
+
       return best;
     } else {
       int best = 1000;
@@ -68,6 +67,7 @@ mixin HardStrategyGetMove {
           }
         }
       }
+
       return best;
     }
   }
