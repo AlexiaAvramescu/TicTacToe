@@ -1,0 +1,15 @@
+💡 Game: Listener added to class Game.
+💡 Board: Player EMark.X made move.
+💡 Game: Listeners notifyed of MarkMade.
+💡 Board: Player EMark.O made move.
+💡 Game: Listeners notifyed of MarkMade.
+💡 Board: Player EMark.X made move.
+💡 Game: Listeners notifyed of MarkMade.
+💡 Board: Player EMark.O made move.
+💡 Game: Listeners notifyed of MarkMade.
+💡 Board: Player EMark.X made move.
+💡 Game: Listeners notifyed of MarkMade.
+💡 Board: Player EMark.O made move.
+💡 Game: Listeners notifyed of GameOver.
+💡 Game: Game state changed to EGameState.oWon
+💡 Game: Listeners notifyed of MarkMade.

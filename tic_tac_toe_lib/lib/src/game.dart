@@ -2,6 +2,7 @@ import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
 import 'package:tic_tac_toe_lib/src/game_api/istrategy.dart';
 import 'package:tic_tac_toe_lib/src/listener.dart';
 import 'package:tic_tac_toe_lib/src/logger.dart';
+import 'package:tic_tac_toe_lib/src/timer.dart';
 
 import 'game_api/game_exception.dart';
 import 'game_api/position.dart';
@@ -24,7 +25,8 @@ class Game implements IGame {
   EGameState _state;
   IStrategy? _strategy;
   final List<IListener> _listerers = [];
-  final _logger = logger(Game);
+  // final _timer = Timer();
+  final _gameLogger = logger(Game);
 
   @override
   bool get isGameOver => _state.isGameOver;
@@ -41,14 +43,14 @@ class Game implements IGame {
   void playerComand(ECommand command) {
     switch (command) {
       case ECommand.exit:
-        _logger.i('Player $_currentPlayer exited game.');
+        _gameLogger.i('Player $_currentPlayer exited game.');
         updateState(EGameState.exit);
         notifyExit();
         break;
       case ECommand.restart:
-        _logger.i('Player $_currentPlayer restarted game.');
+        _gameLogger.i('Player $_currentPlayer restarted game.');
         restart();
-        notifyReset();
+        notifyRestart();
         break;
     }
   }
@@ -58,6 +60,7 @@ class Game implements IGame {
     _board.restart();
     _currentPlayer = EMark.X;
     _state = EGameState.playing;
+    _gameLogger.i('Game has been restarted.');
   }
 
   @override
@@ -70,7 +73,6 @@ class Game implements IGame {
     }
 
     _currentPlayer = _currentPlayer.opposite;
-    _logger.i('Player $_currentPlayer made move.');
     notifyMarkMade();
 
     if (_strategy != null && _currentPlayer != EMark.X) {
@@ -81,7 +83,6 @@ class Game implements IGame {
       _board.makeMove(pos, _currentPlayer);
       verifyState();
       _currentPlayer = _currentPlayer.opposite;
-      _logger.i('Player $_currentPlayer made move.');
 
       notifyMarkMade();
     }
@@ -89,7 +90,7 @@ class Game implements IGame {
 
   @override
   void addListener(IListener listener) {
-    _logger.i('Listener added to class Game.');
+    _gameLogger.i('Listener added to class Game.');
     _listerers.add(listener);
   }
 
@@ -98,7 +99,7 @@ class Game implements IGame {
     int index = _listerers.indexWhere((elem) => elem == listener);
 
     if (index != -1) {
-      _logger.i('Listener removed from class Game.');
+      _gameLogger.i('Listener removed from class Game.');
       _listerers.removeAt(index);
     } else {
       // exception
@@ -107,24 +108,28 @@ class Game implements IGame {
 
   void notifyMarkMade() {
     for (var i = 0; i < _listerers.length; i++) {
+      _gameLogger.i('Listeners notifyed of MarkMade.');
       _listerers[i].onMarkMade();
     }
   }
 
   void notifyGameOver() {
     for (var i = 0; i < _listerers.length; i++) {
+      _gameLogger.i('Listeners notifyed of GameOver.');
       _listerers[i].onGameOver(_state);
     }
   }
 
   void notifyExit() {
     for (var i = 0; i < _listerers.length; i++) {
+      _gameLogger.i('Listeners notifyed of Exit.');
       _listerers[i].onExit();
     }
   }
 
-  void notifyReset() {
+  void notifyRestart() {
     for (var i = 0; i < _listerers.length; i++) {
+      _gameLogger.i('Listeners notifyed of Restart.');
       _listerers[i].onReset();
     }
   }
@@ -134,9 +139,11 @@ class Game implements IGame {
       EGameState state = _currentPlayer == EMark.O ? EGameState.oWon : EGameState.xWon;
       updateState(state);
       notifyGameOver();
+      _gameLogger.i('Game state changed to $_state');
     } else if (_board.isMatrixFull()) {
       updateState(EGameState.draw);
       notifyGameOver();
+      _gameLogger.i('Game state changed to $_state');
     }
   }
 

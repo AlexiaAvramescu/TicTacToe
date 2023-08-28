@@ -1,5 +1,4 @@
-import 'package:tic_tac_toe_lib/src/game_api/position.dart';
-import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
+import 'package:tic_tac_toe_lib/src/logger.dart';
 import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 
 class Board {
@@ -13,6 +12,7 @@ class Board {
   }
 
   final MarkMatrix _matrix = [];
+  final _boardLogger = logger(Board);
 
   MarkMatrix get matrix => _matrix;
 
@@ -39,14 +39,21 @@ class Board {
   }
 
   void validateInput(Position pos) {
-    if (!pos.isPositionValid) throw OutOfBoundInputException();
+    if (!pos.isPositionValid) {
+      _boardLogger.w('OutOfBoundException thrown');
+      throw OutOfBoundInputException();
+    }
 
-    if (_matrix[pos.x][pos.y] != EMark.empty) throw OccupiedPositionException();
+    if (_matrix[pos.x][pos.y] != EMark.empty) {
+      _boardLogger.w('OccupiedPositionException thrown');
+      throw OccupiedPositionException();
+    }
   }
 
   void makeMove(Position pos, EMark currentPlayer) {
     validateInput(pos);
     _matrix[pos.x][pos.y] = currentPlayer;
+    _boardLogger.i('Player $currentPlayer made move.');
   }
 
   bool isMatrixFull() {
@@ -75,11 +82,9 @@ class Board {
       if (verticalWin) return true;
     }
 
-    if (_matrix[0][0] == turn && _matrix[1][1] == turn && _matrix[2][2] == turn)
-      return true;
+    if (_matrix[0][0] == turn && _matrix[1][1] == turn && _matrix[2][2] == turn) return true;
 
-    if (_matrix[0][2] == turn && _matrix[1][1] == turn && _matrix[2][0] == turn)
-      return true;
+    if (_matrix[0][2] == turn && _matrix[1][1] == turn && _matrix[2][0] == turn) return true;
 
     return false;
   }

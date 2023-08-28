@@ -78,6 +78,7 @@ class Console extends IListener {
 
   @override
   void onGameOver(EGameState state) {
+    printBoard();
     print(state);
   }
 
