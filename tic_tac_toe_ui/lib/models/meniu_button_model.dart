@@ -1,33 +1,17 @@
 import 'package:flutter/material.dart';
 
-class MeniuButton {
-  String name;
-  Icon icon;
+class MeniuButton extends StatelessWidget {
+  final String name;
+  final Icon icon;
+  final VoidCallback onPressed;
 
-  MeniuButton({required this.name, this.icon = const Icon(Icons.arrow_right_rounded)});
+  const MeniuButton(
+      {super.key, required this.name, required this.onPressed, this.icon = const Icon(Icons.arrow_right_rounded)});
 
-  static List<MeniuButton> getStrategyButtons() {
-    List<MeniuButton> buttons = [];
-
-    buttons.add(MeniuButton(name: 'Easy'));
-    buttons.add(MeniuButton(name: 'Medium'));
-    buttons.add(MeniuButton(name: 'Hard'));
-
-    return buttons;
-  }
-
-  static List<MeniuButton> getHomeButtons() {
-    List<MeniuButton> buttons = [];
-
-    buttons.add(MeniuButton(name: 'Single Player', icon: const Icon(Icons.person)));
-    buttons.add(MeniuButton(name: 'Multiplayer', icon: const Icon(Icons.people)));
-
-    return buttons;
-  }
-
-  ElevatedButton getButton() {
+  @override
+  Widget build(BuildContext context) {
     return ElevatedButton(
-        onPressed: () {},
+        onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.green,
           shape: RoundedRectangleBorder(

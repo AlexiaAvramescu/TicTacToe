@@ -2,7 +2,7 @@ import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
 import 'package:tic_tac_toe_lib/src/game_api/istrategy.dart';
 import 'package:tic_tac_toe_lib/src/listener.dart';
 import 'package:tic_tac_toe_lib/src/logger.dart';
-import 'package:tic_tac_toe_lib/src/timer.dart';
+//import 'package:tic_tac_toe_lib/src/timer.dart';
 
 import 'game_api/game_exception.dart';
 import 'game_api/position.dart';
