@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe_ui/dificulty_page.dart';
-import 'package:tic_tac_toe_ui/game_page.dart';
 import 'package:tic_tac_toe_ui/models/meniu_button_model.dart';
+import 'package:tic_tac_toe_ui/pages/game_page.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class DificultyPage extends StatelessWidget {
+  const DificultyPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +19,7 @@ class HomePage extends StatelessWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 40, left: 30, right: 20),
                   child: const Text(
-                    'XO Game',
+                    'Dificulty',
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -33,15 +32,19 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     MeniuButton(
-                      name: 'Single Player',
-                      icon: const Icon(Icons.person),
+                      name: 'Hard',
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const DificultyPage()));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
                       },
                     ),
                     MeniuButton(
-                      name: 'Multiplayer',
-                      icon: const Icon(Icons.people),
+                      name: 'Medium',
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
+                      },
+                    ),
+                    MeniuButton(
+                      name: 'Easy',
                       onPressed: () {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
                       },
