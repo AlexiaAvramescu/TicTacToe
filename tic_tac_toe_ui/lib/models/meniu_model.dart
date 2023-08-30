@@ -10,12 +10,49 @@ class Meniu {
     buttons = MeniuButton.getHomeButtons();
   }
   Meniu.strategyPage() {
-    title = 'Choose game strtegy';
+    title = 'Dificulty';
     buttons = MeniuButton.getStrategyButtons();
   }
 
 //or column
-  Container getMeniu() {
-    return Container();
+  ConstrainedBox getMeniu(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height),
+      child: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: const EdgeInsets.only(top: 40, left: 30, right: 20),
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                for (var index = 0; index < buttons.length; index++)
+                  Column(
+                    children: [
+                      Container(
+                        width: 200,
+                        child: buttons[index].getButton(),
+                      ),
+                      SizedBox(height: 5),
+                    ],
+                  )
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 class MeniuButton {
   String name;
-  Icon? icon;
+  Icon icon;
 
-  MeniuButton({required this.name, this.icon});
+  MeniuButton({required this.name, this.icon = const Icon(Icons.arrow_right_rounded)});
 
   static List<MeniuButton> getStrategyButtons() {
     List<MeniuButton> buttons = [];
@@ -25,7 +25,26 @@ class MeniuButton {
     return buttons;
   }
 
-  Container getButton() {
-    return Container();
+  ElevatedButton getButton() {
+    return ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.green,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            icon,
+            const SizedBox(width: 2),
+            Text(
+              name,
+              style: const TextStyle(fontSize: 18),
+              textAlign: TextAlign.left,
+            ),
+          ],
+        ));
   }
 }
