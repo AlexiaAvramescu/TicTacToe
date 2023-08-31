@@ -33,9 +33,9 @@ class SaveToFile extends LogOutput {
 
   @override
   void output(OutputEvent event) {
-    for (var line in event.lines) {
-      //file.writeAsStringSync(line, mode: FileMode.append);
-      //file.writeAsStringSync('\n', mode: FileMode.append);
-    }
+    // for (var line in event.lines) {
+    //file.writeAsStringSync(line, mode: FileMode.append);
+    //file.writeAsStringSync('\n', mode: FileMode.append);
+    // }
   }
 }

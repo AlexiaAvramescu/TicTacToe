@@ -24,12 +24,17 @@ class _GamePageState extends State<GamePage> {
       body: Center(
         child: Column(
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  "Who's turn is it.",
-                  style: TextStyle(fontSize: 18),
+                BlocBuilder<GameCubit, GameState>(
+                  builder: (context, state) {
+                    return Text(
+                      "${state.turn!.name} 's turn",
+                      style: const TextStyle(
+                          fontSize: 50, color: Color.fromARGB(255, 56, 117, 58), fontStyle: FontStyle.normal),
+                    );
+                  },
                 ),
               ],
             ),

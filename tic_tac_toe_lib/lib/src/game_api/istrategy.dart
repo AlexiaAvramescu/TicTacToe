@@ -7,7 +7,7 @@ import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 enum EStrategy {
   easy,
   medium,
-  hard;
+  hard,
 }
 
 abstract class IStrategy {
