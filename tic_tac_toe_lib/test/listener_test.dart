@@ -35,16 +35,9 @@ void main() {
       verify(console.onGameOver(EGameState.xWon)).called(1);
     });
     test('OnRestart Test', () {
-      game.playerComand(ECommand.restart);
+      game.restart();
 
       verify(console.onReset()).called(1);
-    });
-    test('OnExit Test', () {
-      game.playerComand(ECommand.exit);
-      game.playerComand(ECommand.exit);
-      game.playerComand(ECommand.exit);
-
-      verify(console.onExit()).called(3);
     });
   });
 }

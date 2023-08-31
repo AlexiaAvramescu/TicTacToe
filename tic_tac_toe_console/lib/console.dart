@@ -10,7 +10,7 @@ class Console extends IListener {
 
   set game(IGame game) => _game = game;
 
-  void strategy(EStrategy val) => _game.strategy = IStrategy(val);
+  void strategy(EStrategy val) => _game.strategy = val;
 
   void getStrategy() {
     String? input;

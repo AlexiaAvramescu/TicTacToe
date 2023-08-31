@@ -1,7 +1,7 @@
 import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
 import 'package:tic_tac_toe_lib/src/game_api/istrategy.dart';
 import 'package:tic_tac_toe_lib/src/listener.dart';
-import 'package:tic_tac_toe_lib/src/logger.dart';
+import 'package:tic_tac_toe_lib/src/game_api/logger.dart';
 //import 'package:tic_tac_toe_lib/src/timer.dart';
 
 import 'game_api/game_exception.dart';
@@ -29,6 +29,10 @@ class Game implements IGame {
   final _gameLogger = logger(Game);
 
   @override
+  EMark get turn => _currentPlayer;
+  @override
+  EGameState get state => _state;
+  @override
   bool get isGameOver => _state.isGameOver;
   @override
   bool get isStateExit => _state == EGameState.exit;
@@ -37,23 +41,7 @@ class Game implements IGame {
   @override
   MarkMatrix get board => _board.matrix;
   @override
-  set strategy(IStrategy value) => _strategy = value;
-
-  @override
-  void playerComand(ECommand command) {
-    switch (command) {
-      case ECommand.exit:
-        _gameLogger.i('Player $_currentPlayer exited game.');
-        updateState(EGameState.exit);
-        notifyExit();
-        break;
-      case ECommand.restart:
-        _gameLogger.i('Player $_currentPlayer restarted game.');
-        restart();
-        notifyRestart();
-        break;
-    }
-  }
+  set strategy(EStrategy val) => _strategy = IStrategy(val);
 
   @override
   void restart() {
@@ -61,30 +49,33 @@ class Game implements IGame {
     _currentPlayer = EMark.X;
     _state = EGameState.playing;
     _gameLogger.i('Game has been restarted.');
+    notifyRestart();
   }
 
   @override
   void makeMove(Position pos) {
-    _board.makeMove(pos, _currentPlayer);
-    verifyState();
-
-    if (isGameOver) {
-      return;
-    }
-
-    _currentPlayer = _currentPlayer.opposite;
-    notifyMarkMade();
-
-    if (_strategy != null && _currentPlayer != EMark.X) {
-      Position pos = _strategy!.getMove(board: _board, player: _currentPlayer);
-
-      if (!pos.isPositionValid) throw StrategyGetMoveError();
-
+    if (_state == EGameState.playing) {
       _board.makeMove(pos, _currentPlayer);
       verifyState();
-      _currentPlayer = _currentPlayer.opposite;
 
+      if (isGameOver) {
+        return;
+      }
+
+      _currentPlayer = _currentPlayer.opposite;
       notifyMarkMade();
+
+      if (_strategy != null && _currentPlayer != EMark.X) {
+        Position pos = _strategy!.getMove(board: _board, player: _currentPlayer);
+
+        if (!pos.isPositionValid) throw StrategyGetMoveError();
+
+        _board.makeMove(pos, _currentPlayer);
+        verifyState();
+        _currentPlayer = _currentPlayer.opposite;
+
+        notifyMarkMade();
+      }
     }
   }
 

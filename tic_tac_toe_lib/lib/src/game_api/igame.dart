@@ -37,17 +37,18 @@ typedef MarkMatrix = List<List<EMark>>;
 abstract class IGame {
   factory IGame() => Game();
 
+  EMark get turn;
+  EGameState get state;
   bool get isGameOver;
   bool get isStateExit;
   EGameState? get gameResult;
   MarkMatrix get board;
 
-  set strategy(IStrategy value);
+  set strategy(EStrategy val);
 
   void addListener(IListener listener);
   void removeListener(IListener listener);
 
   void restart();
-  void playerComand(ECommand command);
   void makeMove(Position pos);
 }

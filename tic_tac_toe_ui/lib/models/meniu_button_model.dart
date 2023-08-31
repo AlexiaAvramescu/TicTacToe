@@ -6,7 +6,7 @@ class MeniuButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const MeniuButton(
-      {super.key, required this.name, required this.onPressed, this.icon = const Icon(Icons.arrow_right_rounded)});
+      {super.key, this.name = '', required this.onPressed, this.icon = const Icon(Icons.arrow_right_rounded)});
 
   @override
   Widget build(BuildContext context) {

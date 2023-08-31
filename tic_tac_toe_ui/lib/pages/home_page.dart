@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tic_tac_toe_ui/cubit/game_cubit.dart';
 import 'package:tic_tac_toe_ui/models/meniu_button_model.dart';
-import 'package:tic_tac_toe_ui/pages/dificulty_page.dart';
+import 'package:tic_tac_toe_ui/pages/difficulty_page.dart';
 import 'package:tic_tac_toe_ui/pages/game_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,8 +16,7 @@ class HomePage extends StatelessWidget {
         child: SizedBox(
             width: 200,
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
                   margin: const EdgeInsets.only(top: 40, left: 30, right: 20),
@@ -39,10 +40,12 @@ class HomePage extends StatelessWidget {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const DificultyPage()));
                       },
                     ),
+                    const SizedBox(height: 20),
                     MeniuButton(
                       name: 'Multiplayer',
                       icon: const Icon(Icons.people),
                       onPressed: () {
+                        context.read<GameCubit>().restart();
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
                       },
                     ),

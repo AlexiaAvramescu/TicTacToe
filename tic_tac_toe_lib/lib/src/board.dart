@@ -1,13 +1,8 @@
-import 'package:tic_tac_toe_lib/src/logger.dart';
+import 'package:tic_tac_toe_lib/src/game_api/logger.dart';
 import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 
 class Board {
   Board({required List<List<String>> matrixConfig}) {
-    for (var i = 0; i < 3; i++) {
-      final List<EMark> list = [];
-      _matrix.add(list);
-    }
-
     initializeBoard(matrixConfig: matrixConfig);
   }
 
@@ -17,6 +12,11 @@ class Board {
   MarkMatrix get matrix => _matrix;
 
   void initializeBoard({required List<List<String>> matrixConfig}) {
+    _matrix.clear();
+    for (var i = 0; i < 3; i++) {
+      final List<EMark> list = [];
+      _matrix.add(list);
+    }
     for (var i = 0; i < 3; i++) {
       for (var j = 0; j < 3; j++) {
         if (matrixConfig[i][j] == 'X') {
