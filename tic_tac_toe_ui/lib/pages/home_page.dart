@@ -46,7 +46,6 @@ class HomePage extends StatelessWidget {
                       icon: const Icon(Icons.people),
                       onPressed: () {
                         context.read<GameCubit>().restart();
-
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
                       },
                     ),
