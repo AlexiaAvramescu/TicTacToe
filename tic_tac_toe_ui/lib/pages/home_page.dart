@@ -30,8 +30,8 @@ class HomePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // mainAxisSize: MainAxisSize.min,
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     MeniuButton(
                       name: 'Single Player',
@@ -50,6 +50,7 @@ class HomePage extends StatelessWidget {
                         Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
                       },
                     ),
+                    const SizedBox(height: 60),
                   ],
                 )
               ],

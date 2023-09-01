@@ -44,16 +44,27 @@ class _GamePageState extends State<GamePage> {
               height: 300,
               child: BlocBuilder<GameCubit, GameState>(
                 builder: (context, state) {
-                  return GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 1.0,
-                    ),
-                    itemCount: 9,
-                    itemBuilder: (context, index) {
-                      return GameButton(index: index, state: state);
-                    },
+                  return Stack(
+                    children: [
+                      Center(
+                        child: Container(
+                          height: 292,
+                          width: 292,
+                          color: Colors.black,
+                        ),
+                      ),
+                      GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          childAspectRatio: 1.0,
+                        ),
+                        itemCount: 9,
+                        itemBuilder: (context, index) {
+                          return GameButton(index: index, state: state);
+                        },
+                      ),
+                    ],
                   );
                 },
               ),
