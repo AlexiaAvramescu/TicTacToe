@@ -9,7 +9,7 @@ class GameCubit extends Cubit<GameState> implements IListener {
     game.addListener(this);
   }
 
-  void setStrategy(EStrategy val) {
+  void setStrategy(EStrategy? val) {
     game.strategy = val;
   }
 

@@ -44,7 +44,7 @@ abstract class IGame {
   EGameState? get gameResult;
   MarkMatrix get board;
 
-  set strategy(EStrategy val);
+  set strategy(EStrategy? val);
 
   void addListener(IListener listener);
   void removeListener(IListener listener);

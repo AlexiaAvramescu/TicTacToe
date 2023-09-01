@@ -41,7 +41,13 @@ class Game implements IGame {
   @override
   MarkMatrix get board => _board.matrix;
   @override
-  set strategy(EStrategy val) => _strategy = IStrategy(val);
+  set strategy(EStrategy? val) {
+    if (val != null) {
+      _strategy = IStrategy(val);
+    } else {
+      _strategy = null;
+    }
+  }
 
   @override
   void restart() {
