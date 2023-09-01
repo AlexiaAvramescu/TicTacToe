@@ -46,4 +46,10 @@ class GameCubit extends Cubit<GameState> implements IListener {
   void onReset() {
     emit(GameState(board: game.board, turn: game.turn, state: game.state));
   }
+
+  @override
+  void onTimerTic() {
+    // plus timer
+    emit(GameState(board: game.board, turn: game.turn, state: game.state));
+  }
 }

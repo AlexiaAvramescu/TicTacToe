@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (context) => GameCubit(),
       child: const MaterialApp(
-        title: 'Flutter Demo',
+        title: 'TicTacToe',
         debugShowCheckedModeBanner: false,
         home: HomePage(),
       ),

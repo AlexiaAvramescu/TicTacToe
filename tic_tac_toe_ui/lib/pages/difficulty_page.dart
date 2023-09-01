@@ -18,54 +18,62 @@ class DificultyPage extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 163, 240, 210),
       body: Center(
         child: SizedBox(
-            width: 300,
+            width: 250,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 40, left: 30, right: 20),
-                  child: const Text(
-                    'Difficulty',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Column(
-                  children: [
-                    MeniuButton(
-                      name: 'Hard',
-                      onPressed: () {
-                        context.read<GameCubit>().restart();
-                        context.read<GameCubit>().setStrategy(EStrategy.hard);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    MeniuButton(
-                      name: 'Medium',
-                      onPressed: () {
-                        context.read<GameCubit>().restart();
-                        context.read<GameCubit>().setStrategy(EStrategy.medium);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    MeniuButton(
-                      name: 'Easy',
-                      onPressed: () {
-                        context.read<GameCubit>().restart();
-                        context.read<GameCubit>().setStrategy(EStrategy.easy);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
-                      },
-                    ),
-                    const SizedBox(height: 60),
-                  ],
-                )
+                _text(),
+                const SizedBox(height: 40),
+                _buttons(context),
               ],
             )),
+      ),
+    );
+  }
+
+  Column _buttons(BuildContext context) {
+    return Column(
+      children: [
+        MeniuButton(
+          name: 'Hard',
+          onPressed: () {
+            context.read<GameCubit>().restart();
+            context.read<GameCubit>().setStrategy(EStrategy.hard);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
+          },
+        ),
+        const SizedBox(height: 20),
+        MeniuButton(
+          name: 'Medium',
+          onPressed: () {
+            context.read<GameCubit>().restart();
+            context.read<GameCubit>().setStrategy(EStrategy.medium);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
+          },
+        ),
+        const SizedBox(height: 20),
+        MeniuButton(
+          name: 'Easy',
+          onPressed: () {
+            context.read<GameCubit>().restart();
+            context.read<GameCubit>().setStrategy(EStrategy.easy);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
+          },
+        ),
+        const SizedBox(height: 60),
+      ],
+    );
+  }
+
+  Container _text() {
+    return Container(
+      margin: const EdgeInsets.only(top: 40, left: 30, right: 20),
+      child: const Text(
+        'Difficulty',
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }

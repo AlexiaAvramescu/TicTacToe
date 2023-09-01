@@ -14,47 +14,55 @@ class HomePage extends StatelessWidget {
       backgroundColor: const Color.fromARGB(255, 163, 240, 210),
       body: Center(
         child: SizedBox(
-            width: 200,
+            width: 250,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  margin: const EdgeInsets.only(top: 40, left: 30, right: 20),
-                  child: const Text(
-                    'XO Game',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Column(
-                  // mainAxisSize: MainAxisSize.min,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    MeniuButton(
-                      name: 'Single Player',
-                      icon: const Icon(Icons.person),
-                      onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const DificultyPage()));
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    MeniuButton(
-                      name: 'Multiplayer',
-                      icon: const Icon(Icons.people),
-                      onPressed: () {
-                        context.read<GameCubit>().restart();
-                        context.read<GameCubit>().setStrategy(null);
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
-                      },
-                    ),
-                    const SizedBox(height: 60),
-                  ],
-                )
+                _text(),
+                const SizedBox(height: 40),
+                _buttons(context),
               ],
             )),
+      ),
+    );
+  }
+
+  Column _buttons(BuildContext context) {
+    return Column(
+      // mainAxisSize: MainAxisSize.min,
+      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        MeniuButton(
+          name: 'Single Player',
+          icon: const Icon(Icons.person),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const DificultyPage()));
+          },
+        ),
+        const SizedBox(height: 20),
+        MeniuButton(
+          name: 'Multiplayer',
+          icon: const Icon(Icons.people),
+          onPressed: () {
+            context.read<GameCubit>().restart();
+            context.read<GameCubit>().setStrategy(null);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
+          },
+        ),
+        const SizedBox(height: 60),
+      ],
+    );
+  }
+
+  Container _text() {
+    return Container(
+      margin: const EdgeInsets.only(top: 40, left: 30, right: 20),
+      child: const Text(
+        'Tic Tac Toe',
+        style: TextStyle(
+          fontSize: 40,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }

@@ -91,4 +91,7 @@ class Console extends IListener {
   void onReset() {
     printBoard();
   }
+
+  @override
+  void onTimerTic() {}
 }

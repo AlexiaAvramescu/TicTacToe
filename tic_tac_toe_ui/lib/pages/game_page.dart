@@ -27,6 +27,9 @@ class _GamePageState extends State<GamePage> {
       body: Center(
         child: Column(
           children: [
+            SizedBox(
+              height: 50,
+            ),
             _turnText(),
             const SizedBox(height: 30),
             SizedBox(
@@ -58,6 +61,7 @@ class _GamePageState extends State<GamePage> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         MeniuButton(
+            icon: Icon(Icons.refresh_rounded),
             name: 'Restart',
             onPressed: () {
               context.read<GameCubit>().restart();
@@ -71,8 +75,8 @@ class _GamePageState extends State<GamePage> {
       children: [
         Center(
           child: Container(
-            height: 292,
-            width: 292,
+            height: 290,
+            width: 290,
             color: Colors.black,
           ),
         ),
@@ -111,20 +115,40 @@ class _GamePageState extends State<GamePage> {
   void _gameOverDialog({required BuildContext context, required EGameState? state}) {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 0.002, sigmaY: 0.002),
             child: AlertDialog(
-              title: const Text('GameOver'),
-              content: Text(state!.name),
+              backgroundColor: Color.fromARGB(255, 38, 209, 181),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Game Over', style: TextStyle(fontSize: 35, fontWeight: FontWeight.w600)),
+                ],
+              ),
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Builder(
+                    builder: (context) {
+                      if (state == EGameState.xWon) return Text('Player X won!', style: TextStyle(fontSize: 25));
+                      if (state == EGameState.oWon) return Text('Player O won!', style: TextStyle(fontSize: 25));
+                      return Text('Draw.', style: TextStyle(fontSize: 25));
+                    },
+                  )
+                ],
+              ),
               actions: [
-                ElevatedButton(
-                  style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
-                  onPressed: () {
-                    context.read<GameCubit>().restart();
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('OK'),
+                Center(
+                  child: ElevatedButton(
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.green)),
+                    onPressed: () {
+                      context.read<GameCubit>().restart();
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
                 )
               ],
             ),

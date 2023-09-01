@@ -25,13 +25,13 @@ class GameButton extends StatelessWidget {
             if (state.board![index ~/ 3][index % 3] == EMark.O) {
               return const Text(
                 'O',
-                style: TextStyle(fontSize: 25, color: Colors.green, fontStyle: FontStyle.normal),
+                style: TextStyle(fontSize: 35, color: Colors.green, fontStyle: FontStyle.normal),
               );
             }
             if (state.board![index ~/ 3][index % 3] == EMark.X) {
               return const Text(
                 'X',
-                style: TextStyle(fontSize: 25, color: Colors.green, fontStyle: FontStyle.normal),
+                style: TextStyle(fontSize: 35, color: Colors.green, fontStyle: FontStyle.normal),
               );
             }
             return const Text('');

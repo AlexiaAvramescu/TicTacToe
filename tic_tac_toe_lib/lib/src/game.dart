@@ -18,14 +18,16 @@ class Game implements IGame {
       ]})
       : _currentPlayer = currentPlayer,
         _board = Board(matrixConfig: boardConfig),
-        _state = EGameState.playing;
+        _state = EGameState.playing {
+    //_timer = TimerClass(timerNotify: notifyTimerTic);
+  }
 
   EMark _currentPlayer;
   final Board _board;
   EGameState _state;
   IStrategy? _strategy;
   final List<IListener> _listerers = [];
-  // final _timer = Timer();
+  //late final TimerClass _timer;
   final _gameLogger = logger(Game);
 
   @override
@@ -51,6 +53,7 @@ class Game implements IGame {
 
   @override
   void restart() {
+    // _timer.restart();
     _board.restart();
     _currentPlayer = EMark.X;
     _state = EGameState.playing;
@@ -78,6 +81,9 @@ class Game implements IGame {
 
         _board.makeMove(pos, _currentPlayer);
         verifyState();
+        if (isGameOver) {
+          return;
+        }
         _currentPlayer = _currentPlayer.opposite;
 
         notifyMarkMade();
@@ -128,6 +134,13 @@ class Game implements IGame {
     for (var i = 0; i < _listerers.length; i++) {
       _gameLogger.i('Listeners notifyed of Restart.');
       _listerers[i].onReset();
+    }
+  }
+
+  void notifyTimerTic() {
+    for (var i = 0; i < _listerers.length; i++) {
+      _gameLogger.i('Listeners notifyed of Restart.');
+      _listerers[i].onTimerTic();
     }
   }
 
