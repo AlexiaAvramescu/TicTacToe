@@ -28,6 +28,7 @@ class Board {
         }
       }
     }
+    _boardLogger.i('Board initialized.');
   }
 
   void restart() {
@@ -36,6 +37,7 @@ class Board {
       ['-', '-', '-'],
       ['-', '-', '-']
     ]);
+    _boardLogger.i('Board reset.');
   }
 
   void validateInput(Position pos) {
@@ -62,6 +64,7 @@ class Board {
         if (_matrix[i][j] == EMark.empty) return false;
       }
     }
+    _boardLogger.i('Board full.');
     return true;
   }
 

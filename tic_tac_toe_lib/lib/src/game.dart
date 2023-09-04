@@ -2,7 +2,7 @@ import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
 import 'package:tic_tac_toe_lib/src/game_api/istrategy.dart';
 import 'package:tic_tac_toe_lib/src/listener.dart';
 import 'package:tic_tac_toe_lib/src/game_api/logger.dart';
-//import 'package:tic_tac_toe_lib/src/timer.dart';
+import 'package:tic_tac_toe_lib/src/timer.dart';
 
 import 'game_api/game_exception.dart';
 import 'game_api/position.dart';
@@ -19,7 +19,7 @@ class Game implements IGame {
       : _currentPlayer = currentPlayer,
         _board = Board(matrixConfig: boardConfig),
         _state = EGameState.playing {
-    //_timer = TimerClass(timerNotify: notifyTimerTic);
+    _timer = TimerClass(timerNotify: notifyTimerTic);
   }
 
   EMark _currentPlayer;
@@ -27,7 +27,7 @@ class Game implements IGame {
   EGameState _state;
   IStrategy? _strategy;
   final List<IListener> _listerers = [];
-  //late final TimerClass _timer;
+  late final TimerClass _timer;
   final _gameLogger = logger(Game);
 
   @override
@@ -53,7 +53,7 @@ class Game implements IGame {
 
   @override
   void restart() {
-    // _timer.restart();
+    _timer.restart();
     _board.restart();
     _currentPlayer = EMark.X;
     _state = EGameState.playing;
@@ -63,31 +63,34 @@ class Game implements IGame {
 
   @override
   void makeMove(Position pos) {
-    if (_state == EGameState.playing) {
-      _board.makeMove(pos, _currentPlayer);
+    if (_state != EGameState.playing) {
+      _gameLogger.w('makeMove() called in another state then playing');
+      throw NotStatePlaying();
+    }
+    _board.makeMove(pos, _currentPlayer);
+    verifyState();
+
+    if (isGameOver) {
+      return;
+    }
+    notifyMarkMade();
+
+    if (_strategy != null) {
+      Position pos = _strategy!.getMove(board: _board, player: _currentPlayer);
+
+      if (!pos.isPositionValid) throw StrategyGetMoveError();
+
+      _board.makeMove(pos, _currentPlayer.opposite);
       verifyState();
 
       if (isGameOver) {
         return;
       }
-
-      _currentPlayer = _currentPlayer.opposite;
       notifyMarkMade();
-
-      if (_strategy != null && _currentPlayer != EMark.X) {
-        Position pos = _strategy!.getMove(board: _board, player: _currentPlayer);
-
-        if (!pos.isPositionValid) throw StrategyGetMoveError();
-
-        _board.makeMove(pos, _currentPlayer);
-        verifyState();
-        if (isGameOver) {
-          return;
-        }
-        _currentPlayer = _currentPlayer.opposite;
-
-        notifyMarkMade();
-      }
+    } else {
+      _currentPlayer = _currentPlayer.opposite;
+      _gameLogger.i('Timer switched to ${_currentPlayer.name}.');
+      _timer.switchTimer();
     }
   }
 
@@ -105,7 +108,8 @@ class Game implements IGame {
       _gameLogger.i('Listener removed from class Game.');
       _listerers.removeAt(index);
     } else {
-      // exception
+      _gameLogger.w('Listener not found to be removed from class Game.');
+      throw ListenerCanNotBeRemoved();
     }
   }
 
@@ -138,9 +142,15 @@ class Game implements IGame {
   }
 
   void notifyTimerTic() {
+    int elapsedTime;
+    if (_currentPlayer == EMark.X)
+      elapsedTime = _timer.xTimer.elapsedMilliseconds;
+    else
+      elapsedTime = _timer.oTimer.elapsedMilliseconds;
+
     for (var i = 0; i < _listerers.length; i++) {
       _gameLogger.i('Listeners notifyed of Restart.');
-      _listerers[i].onTimerTic();
+      _listerers[i].onTimerTic(elapsedTime);
     }
   }
 

@@ -18,6 +18,13 @@ class OccupiedPositionException extends InvalidInputException {
 }
 
 class StrategyGetMoveError extends GameException {
-  StrategyGetMoveError()
-      : super('The function getMove did not return a valid position.');
+  StrategyGetMoveError() : super('The function getMove did not return a valid position.');
+}
+
+class NotStatePlaying extends GameException {
+  NotStatePlaying() : super('GameState is not Playing.');
+}
+
+class ListenerCanNotBeRemoved extends GameException {
+  ListenerCanNotBeRemoved() : super('Listener not found to be removed.');
 }

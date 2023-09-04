@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:html';
 
 class TimerClass {
   final xTimer = Stopwatch();
   final oTimer = Stopwatch();
-  late final VoidCallback timerNotify;
+  late final void Function() timerNotify;
   late final Timer timer;
 
   TimerClass({required this.timerNotify}) {
@@ -17,4 +16,16 @@ class TimerClass {
     xTimer.reset();
     oTimer.reset();
   }
+
+  void switchTimer() {
+    if (xTimer.isRunning) {
+      xTimer.stop();
+      oTimer.start();
+    } else {
+      xTimer.start();
+      oTimer.stop();
+    }
+  }
+
+  bool isRunning() => xTimer.isRunning || oTimer.isRunning ? true : false;
 }
