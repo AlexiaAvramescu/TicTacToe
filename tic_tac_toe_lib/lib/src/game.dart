@@ -18,8 +18,8 @@ class Game implements IGame {
       ]})
       : _currentPlayer = currentPlayer,
         _board = Board(matrixConfig: boardConfig),
-        _state = EGameState.playing {
-    _timer = TimerClass(timerNotify: notifyTimerTic);
+        _state = EGameState.strategyNotSet {
+    _timer = TimerClass(timerNotify: notifyTimerTic, handleTimeout: handleTimeout);
   }
 
   EMark _currentPlayer;
@@ -37,23 +37,29 @@ class Game implements IGame {
   @override
   bool get isGameOver => _state.isGameOver;
   @override
-  bool get isStateExit => _state == EGameState.exit;
-  @override
   EGameState? get gameResult => _state;
   @override
   MarkMatrix get board => _board.matrix;
+
   @override
   set strategy(EStrategy? val) {
     if (val != null) {
       _strategy = IStrategy(val);
+      _gameLogger.i('Strategy set to ${val.name}.');
+      _timer.reset();
     } else {
       _strategy = null;
+      _gameLogger.i('Strategy set to null.');
+      _timer.reset();
+      _timer.start();
     }
+    updateState(EGameState.playing);
   }
 
   @override
   void restart() {
-    _timer.restart();
+    _timer.reset();
+    if (_strategy == null) _timer.start();
     _board.restart();
     _currentPlayer = EMark.X;
     _state = EGameState.playing;
@@ -64,7 +70,7 @@ class Game implements IGame {
   @override
   void makeMove(Position pos) {
     if (_state != EGameState.playing) {
-      _gameLogger.w('makeMove() called in another state then playing');
+      _gameLogger.w('makeMove() called in other state then playing');
       throw NotStatePlaying();
     }
     _board.makeMove(pos, _currentPlayer);
@@ -73,6 +79,7 @@ class Game implements IGame {
     if (isGameOver) {
       return;
     }
+    _currentPlayer = _currentPlayer.opposite;
     notifyMarkMade();
 
     if (_strategy != null) {
@@ -80,17 +87,17 @@ class Game implements IGame {
 
       if (!pos.isPositionValid) throw StrategyGetMoveError();
 
-      _board.makeMove(pos, _currentPlayer.opposite);
+      _board.makeMove(pos, _currentPlayer);
       verifyState();
 
       if (isGameOver) {
         return;
       }
+      _currentPlayer = _currentPlayer.opposite;
       notifyMarkMade();
     } else {
-      _currentPlayer = _currentPlayer.opposite;
-      _gameLogger.i('Timer switched to ${_currentPlayer.name}.');
       _timer.switchTimer();
+      _gameLogger.i('Timer switched to ${_currentPlayer.name}.');
     }
   }
 
@@ -127,13 +134,6 @@ class Game implements IGame {
     }
   }
 
-  void notifyExit() {
-    for (var i = 0; i < _listerers.length; i++) {
-      _gameLogger.i('Listeners notifyed of Exit.');
-      _listerers[i].onExit();
-    }
-  }
-
   void notifyRestart() {
     for (var i = 0; i < _listerers.length; i++) {
       _gameLogger.i('Listeners notifyed of Restart.');
@@ -142,15 +142,8 @@ class Game implements IGame {
   }
 
   void notifyTimerTic() {
-    int elapsedTime;
-    if (_currentPlayer == EMark.X)
-      elapsedTime = _timer.xTimer.elapsedMilliseconds;
-    else
-      elapsedTime = _timer.oTimer.elapsedMilliseconds;
-
     for (var i = 0; i < _listerers.length; i++) {
-      _gameLogger.i('Listeners notifyed of Restart.');
-      _listerers[i].onTimerTic(elapsedTime);
+      _listerers[i].onTimerTic(_timer.xTimer.elapsed, _timer.oTimer.elapsed);
     }
   }
 
@@ -158,14 +151,32 @@ class Game implements IGame {
     if (_board.currentPlayerWon(_currentPlayer)) {
       EGameState state = _currentPlayer == EMark.O ? EGameState.oWon : EGameState.xWon;
       updateState(state);
+      _timer.reset();
       notifyGameOver();
-      _gameLogger.i('Game state changed to $_state');
     } else if (_board.isMatrixFull()) {
       updateState(EGameState.draw);
+      _timer.reset();
       notifyGameOver();
-      _gameLogger.i('Game state changed to $_state');
     }
   }
 
-  void updateState(EGameState state) => _state = state;
+  void updateState(EGameState state) {
+    _state = state;
+    _gameLogger.i('Game state changed to $_state');
+  }
+
+  void handleTimeout() {
+    if (_timer.xTimer.elapsed.inSeconds >= 20) {
+      updateState(EGameState.oWon);
+      _timer.reset();
+      notifyGameOver();
+    }
+    if (_timer.oTimer.elapsed.inSeconds >= 20) {
+      updateState(EGameState.xWon);
+      _timer.reset();
+      notifyGameOver();
+    }
+  }
+
+  bool isTimerRunning() => _timer.isRunning();
 }

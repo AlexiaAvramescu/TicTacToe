@@ -4,9 +4,7 @@ class GameException implements Exception {
 }
 
 class InvalidInputException extends GameException {
-  InvalidInputException(this.message) : super(message);
-  @override
-  final String message;
+  InvalidInputException(message) : super(message);
 }
 
 class OutOfBoundInputException extends InvalidInputException {

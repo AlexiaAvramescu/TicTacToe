@@ -4,7 +4,8 @@ final class GameState {
   late List<List<EMark>>? board;
   late EMark? turn;
   late EGameState? state;
-  late int? timer;
+  late Duration? xDuration;
+  late Duration? oDuration;
 
-  GameState({this.board, this.turn, this.state, this.timer});
+  GameState({this.board, this.turn, this.state, this.xDuration, this.oDuration});
 }

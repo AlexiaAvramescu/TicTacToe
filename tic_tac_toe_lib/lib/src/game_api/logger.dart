@@ -6,7 +6,9 @@ Logger loggerType(Type type) => Logger(
     printer: CustomPrinter(type.toString()),
     output: SaveToFile(filePath: 'C:/Users/aavramescu/Desktop/XOGame/tic_tac_toe_lib/lib/src/game_api/logger.txt'));
 
-final logger = (Type type) => loggerType(type);
+logger(Type type) {
+  return loggerType(type);
+}
 
 class CustomPrinter extends LogPrinter {
   final String className;
@@ -28,14 +30,14 @@ class SaveToFile extends LogOutput {
 
   SaveToFile({required this.filePath}) {
     file = File(filePath);
-    //file.writeAsStringSync('', mode: FileMode.write);
+    file.writeAsStringSync('', mode: FileMode.write);
   }
 
   @override
   void output(OutputEvent event) {
-    // for (var line in event.lines) {
-    //file.writeAsStringSync(line, mode: FileMode.append);
-    //file.writeAsStringSync('\n', mode: FileMode.append);
-    // }
+    for (var line in event.lines) {
+      file.writeAsStringSync(line, mode: FileMode.append);
+      file.writeAsStringSync('\n', mode: FileMode.append);
+    }
   }
 }

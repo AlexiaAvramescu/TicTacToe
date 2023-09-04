@@ -48,8 +48,8 @@ class GameCubit extends Cubit<GameState> implements IListener {
   }
 
   @override
-  void onTimerTic(int elapsedTime) {
-    // timer
-    emit(GameState(board: game.board, turn: game.turn, state: game.state, timer: elapsedTime));
+  void onTimerTic(Duration xDuration, Duration oDuration) {
+    print('${oDuration.inSeconds} : ${xDuration.inSeconds}');
+    emit(GameState(board: game.board, turn: game.turn, state: game.state, xDuration: xDuration, oDuration: oDuration));
   }
 }

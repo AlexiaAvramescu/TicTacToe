@@ -10,8 +10,8 @@ enum EMark {
 
   bool get isEmpty => this == empty;
   EMark get opposite {
-    if (!isEmpty) return this == EMark.O ? EMark.X : EMark.O;
-    return this;
+    if (isEmpty) return EMark.empty;
+    return this == EMark.O ? EMark.X : EMark.O;
   }
 }
 
@@ -21,12 +21,12 @@ enum ECommand {
 }
 
 enum EGameState {
-  xWon,
-  oWon,
-  draw,
+  strategyNotSet,
   playing,
   paused,
-  exit;
+  xWon,
+  oWon,
+  draw;
 
   EGameState get gameState => this;
   bool get isGameOver => this != playing;
@@ -40,7 +40,6 @@ abstract class IGame {
   EMark get turn;
   EGameState get state;
   bool get isGameOver;
-  bool get isStateExit;
   EGameState? get gameResult;
   MarkMatrix get board;
 

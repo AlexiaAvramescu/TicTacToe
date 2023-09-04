@@ -93,5 +93,5 @@ class Console extends IListener {
   }
 
   @override
-  void onTimerTic(int elapsedTime) {}
+  void onTimerTic(Duration xDuration, Duration oDuration) {}
 }

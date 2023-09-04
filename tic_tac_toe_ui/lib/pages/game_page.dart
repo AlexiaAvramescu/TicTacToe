@@ -49,6 +49,19 @@ class _GamePageState extends State<GamePage> {
               ),
             ),
             const SizedBox(height: 30),
+            SizedBox(
+              child: BlocBuilder<GameCubit, GameState>(builder: (context, state) {
+                if (state.xDuration != null) {
+                  String xSeconds = (state.xDuration!.inSeconds).toString().padLeft(2, '0');
+                  String xMillseconds = (state.xDuration!.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0');
+                  String oSeconds = (state.oDuration!.inSeconds).toString().padLeft(2, '0');
+                  String oMillseconds = (state.oDuration!.inMilliseconds % 1000 ~/ 10).toString().padLeft(2, '0');
+                  return Text('${xSeconds}:${xMillseconds} - ${oSeconds}:${oMillseconds}');
+                }
+                return Text('00:00  00:00');
+              }),
+            ),
+            const SizedBox(height: 30),
             _restartButton(context)
           ],
         ),

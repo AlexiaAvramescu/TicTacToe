@@ -5,5 +5,5 @@ abstract class IListener {
   void onGameOver(EGameState state);
   void onExit();
   void onReset();
-  void onTimerTic(int elapsedTime);
+  void onTimerTic(Duration xDuration, Duration oDuration);
 }

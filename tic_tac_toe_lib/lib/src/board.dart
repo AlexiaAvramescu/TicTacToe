@@ -64,7 +64,7 @@ class Board {
         if (_matrix[i][j] == EMark.empty) return false;
       }
     }
-    _boardLogger.i('Board full.');
+    //_boardLogger.i('Board full.');
     return true;
   }
 

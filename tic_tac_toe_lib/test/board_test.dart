@@ -11,13 +11,11 @@ void main() {
     ]);
 
     test('Out of Bound Input', () {
-      expect(() => board.validateInput(Position(-1, 4)),
-          throwsA(isA<OutOfBoundInputException>()));
+      expect(() => board.validateInput(Position(-1, 4)), throwsA(isA<OutOfBoundInputException>()));
     });
 
     test('Occupied Position Input', () {
-      expect(() => board.validateInput(Position(1, 1)),
-          throwsA(isA<OccupiedPositionException>()));
+      expect(() => board.validateInput(Position(1, 1)), throwsA(isA<OccupiedPositionException>()));
     });
 
     test('ValidInput #1', () {
@@ -77,6 +75,4 @@ void main() {
       expect(board.currentPlayerWon(EMark.O), isFalse);
     });
   });
-
-//  group('Function isMatrixFull', () => null)
 }

@@ -4,17 +4,24 @@ class TimerClass {
   final xTimer = Stopwatch();
   final oTimer = Stopwatch();
   late final void Function() timerNotify;
-  late final Timer timer;
+  late final void Function() handleTimeout;
+  late Timer timer;
 
-  TimerClass({required this.timerNotify}) {
-    timer = Timer(Duration(milliseconds: 10), () {
+  TimerClass({required this.timerNotify, required this.handleTimeout}) {
+    timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
       timerNotify();
+      handleTimeout();
     });
   }
 
-  void restart() {
+  void reset() {
     xTimer.reset();
     oTimer.reset();
+
+    xTimer.stop();
+    oTimer.stop();
+
+    timer.cancel();
   }
 
   void switchTimer() {
@@ -25,6 +32,14 @@ class TimerClass {
       xTimer.start();
       oTimer.stop();
     }
+  }
+
+  void start() {
+    timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
+      timerNotify();
+      handleTimeout();
+    });
+    xTimer.start();
   }
 
   bool isRunning() => xTimer.isRunning || oTimer.isRunning ? true : false;
