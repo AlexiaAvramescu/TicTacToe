@@ -48,6 +48,8 @@ abstract class IGame {
   void addListener(IListener listener);
   void removeListener(IListener listener);
 
+  void pauseTimer();
+  void resumeTimer();
   void restart();
   void makeMove(Position pos);
 }

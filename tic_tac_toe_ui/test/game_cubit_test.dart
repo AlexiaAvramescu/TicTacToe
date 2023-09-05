@@ -11,37 +11,48 @@ import 'game_cubit_test.mocks.dart';
 
 void main() {
   group('GameCubit', () {
-    late final MockIGame mockGame;
-    late GameCubit gameCubit;
+    final MockIGame mockGame = MockIGame();
 
-    setUp(() {
-      gameCubit = GameCubit();
-      mockGame = MockIGame();
-      gameCubit.game = mockGame;
-    });
+    // test('Initial state test', () {
 
-    tearDown(() => gameCubit.close());
+    //   expect(gameCubit.state, equals(GameState()));
+    // });
 
-    test('Initial state test', () {
-      expect(gameCubit.state, equals(GameState()));
-    });
+    blocTest<GameCubit, GameState>(
+      'Test initialization.',
+      build: () => GameCubit(),
+      act: (cubit) {
+        cubit.game = mockGame;
 
-    test('Set strategy updates state', () {
-      final newState = GameState(
-        board: [
-          [EMark.X, EMark.empty, EMark.empty],
-          [EMark.empty, EMark.empty, EMark.empty],
-          [EMark.empty, EMark.empty, EMark.empty]
-        ],
-        turn: EMark.O,
-        state: EGameState.playing,
-      );
+        expect(cubit.state, equals(GameState()));
+      },
+      expect: () => [],
+    );
 
-      gameCubit.makeMove(Position(0, 0));
-      gameCubit.strategy = null;
+    blocTest<GameCubit, GameState>(
+      'Test function set strategy.',
+      build: () => GameCubit(),
+      act: (cubit) {
+        cubit.game = mockGame;
 
-      expect(gameCubit.state, newState);
-    });
+        cubit.strategy = EStrategy.easy;
+        verify(mockGame.strategy = EStrategy.easy).called(1);
+      },
+      expect: () => [],
+    );
+    blocTest<GameCubit, GameState>(
+      'Test function makeMove.',
+      build: () => GameCubit(),
+      act: (cubit) {
+        cubit.game = mockGame;
+        cubit.makeMove(Position(0, 0));
+        cubit.makeMove(Position(1, 2));
+        cubit.makeMove(Position(1, 1));
+
+        verify(mockGame.makeMove(any)).called(3);
+      },
+      expect: () => [],
+    );
 
     blocTest<GameCubit, GameState>(
       'Test function restart.',
@@ -88,10 +99,14 @@ void main() {
       build: () => GameCubit(),
       act: (cubit) {
         cubit.game = mockGame;
-        cubit.restart();
-        verify(mockGame.restart()).called(1);
+
+        cubit.onGameOver(EGameState.xWon);
       },
-      expect: () => [],
+      expect: () => [
+        GameState(
+          state: EGameState.xWon,
+        )
+      ],
     );
 
     blocTest<GameCubit, GameState>(
@@ -99,10 +114,48 @@ void main() {
       build: () => GameCubit(),
       act: (cubit) {
         cubit.game = mockGame;
-        cubit.restart();
-        verify(mockGame.restart()).called(1);
+
+        cubit.onTimerTic(Duration(seconds: 5), Duration(seconds: 7));
       },
-      expect: () => [],
+      expect: () => [GameState(xDuration: Duration(seconds: 5), oDuration: Duration(seconds: 7))],
+    );
+
+    blocTest<GameCubit, GameState>(
+      'Test function onTimerTic #1.',
+      build: () => GameCubit(),
+      act: (cubit) {
+        cubit.game = mockGame;
+
+        cubit.onTimerTic(Duration(seconds: 2), Duration(milliseconds: 7));
+      },
+      expect: () => [GameState(xDuration: Duration(seconds: 2), oDuration: Duration(milliseconds: 7))],
+    );
+
+    blocTest<GameCubit, GameState>(
+      'Test function onMoveMade.',
+      build: () => GameCubit(),
+      act: (cubit) {
+        cubit.game = mockGame;
+
+        when(mockGame.board).thenReturn([
+          [EMark.X, EMark.O, EMark.X],
+          [EMark.empty, EMark.X, EMark.empty],
+          [EMark.O, EMark.empty, EMark.empty]
+        ]);
+        when(mockGame.turn).thenReturn(EMark.O);
+
+        cubit.onMarkMade();
+      },
+      expect: () => [
+        GameState(
+          board: [
+            [EMark.X, EMark.O, EMark.X],
+            [EMark.empty, EMark.X, EMark.empty],
+            [EMark.O, EMark.empty, EMark.empty]
+          ],
+          turn: EMark.O,
+        )
+      ],
     );
   });
 }

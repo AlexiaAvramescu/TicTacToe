@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:tic_tac_toe_lib/src/game_api/igame.dart';
+
 class TimerClass {
   final xStopwatch = Stopwatch();
   final oStopwatch = Stopwatch();
@@ -10,7 +12,7 @@ class TimerClass {
   TimerClass({required this.timerNotify, required this.handleTimeout}) {
     timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
       timerNotify();
-      handleTimeout();
+      if (xStopwatch.elapsed.inSeconds >= 20 || oStopwatch.elapsed.inSeconds >= 20) handleTimeout();
     });
   }
 
@@ -18,10 +20,7 @@ class TimerClass {
     xStopwatch.reset();
     oStopwatch.reset();
 
-    xStopwatch.stop();
-    oStopwatch.stop();
-
-    timer.cancel();
+    pause();
   }
 
   void switchTimer() {
@@ -34,12 +33,22 @@ class TimerClass {
     }
   }
 
-  void start() {
+  void start(EMark player) {
     timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
       timerNotify();
       if (xStopwatch.elapsed.inSeconds >= 20 || oStopwatch.elapsed.inSeconds >= 20) handleTimeout();
     });
-    xStopwatch.start();
+
+    if (player == EMark.X)
+      xStopwatch.start();
+    else
+      oStopwatch.start();
+  }
+
+  void pause() {
+    if (xStopwatch.isRunning) xStopwatch.stop();
+    if (oStopwatch.isRunning) oStopwatch.stop();
+    timer.cancel();
   }
 
   bool isRunning() => xStopwatch.isRunning || oStopwatch.isRunning ? true : false;

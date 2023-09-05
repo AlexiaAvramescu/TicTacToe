@@ -51,15 +51,25 @@ class Game implements IGame {
       _strategy = null;
       _gameLogger.i('Strategy set to null.');
       _timer.reset();
-      _timer.start();
+      _timer.start(EMark.X);
     }
     updateState(EGameState.playing);
   }
 
   @override
+  void pauseTimer() {
+    _timer.pause();
+  }
+
+  @override
+  void resumeTimer() {
+    _timer.start(_currentPlayer);
+  }
+
+  @override
   void restart() {
     _timer.reset();
-    if (_strategy == null) _timer.start();
+    if (_strategy == null) _timer.start(EMark.X);
     _board.restart();
     _currentPlayer = EMark.X;
     updateState(EGameState.playing);

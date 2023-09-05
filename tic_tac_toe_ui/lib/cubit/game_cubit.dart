@@ -31,14 +31,22 @@ class GameCubit extends Cubit<GameState> implements IListener {
     }
   }
 
+  void pauseTimer() {
+    _game.pauseTimer();
+  }
+
+  void resumeTimer() {
+    _game.resumeTimer();
+  }
+
   @override
   void onGameOver(EGameState gameState) {
-    emit(state.copyWith(board: _game.board, turn: _game.turn, state: _game.state));
+    emit(state.copyWith(state: gameState));
   }
 
   @override
   void onMarkMade() {
-    emit(state.copyWith(board: _game.board, turn: _game.turn, state: _game.state));
+    emit(state.copyWith(board: _game.board, turn: _game.turn));
   }
 
   @override
@@ -48,7 +56,6 @@ class GameCubit extends Cubit<GameState> implements IListener {
 
   @override
   void onTimerTic(Duration xDuration, Duration oDuration) {
-    emit(state.copyWith(
-        board: _game.board, turn: _game.turn, state: _game.state, xDuration: xDuration, oDuration: oDuration));
+    emit(state.copyWith(xDuration: xDuration, oDuration: oDuration));
   }
 }

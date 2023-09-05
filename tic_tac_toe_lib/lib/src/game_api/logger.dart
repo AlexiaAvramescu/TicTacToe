@@ -4,7 +4,7 @@ import 'package:logger/logger.dart';
 
 Logger loggerType(Type type) => Logger(
       printer: CustomPrinter(type.toString()),
-      output: SaveToFile(filePath: '../tic_tac_toe_lib/lib/src/game_api/logger.txt'),
+      output: SaveToFile(filePath: 'C:Users/aavramescu/Desktop/XOGame/tic_tac_toe_lib/lib/src/game_api/logger.txt'),
     );
 
 Logger loggerType2(String str) => Logger(printer: CustomPrinter(str));
@@ -37,14 +37,14 @@ class SaveToFile extends LogOutput {
 
   SaveToFile({required this.filePath}) {
     file = File(filePath);
-    file.writeAsStringSync('', mode: FileMode.write);
+    //file.writeAsStringSync('', mode: FileMode.write);
   }
 
   @override
   void output(OutputEvent event) {
     for (var line in event.lines) {
-      file.writeAsStringSync(line, mode: FileMode.append);
-      file.writeAsStringSync('\n', mode: FileMode.append);
+      //file.writeAsStringSync(line, mode: FileMode.append);
+      //file.writeAsStringSync('\n', mode: FileMode.append);
     }
   }
 }
