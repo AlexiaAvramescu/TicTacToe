@@ -38,29 +38,33 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  bloc_test: ^9.1.4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: "^0.13.1"
+  test: ^1.24.3
+  mockito :
+  build_runner:
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "C:/Users/aavramescu/Desktop/XOGame/tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
+  image_path: "tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: true
-    image_path: "C:/Users/aavramescu/Desktop/XOGame/tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
+    image_path: "tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
     background_color: "#hexcode"
     theme_color: "#hexcode"
   windows:
     generate: true
-    image_path: "C:/Users/aavramescu/Desktop/XOGame/tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
+    image_path: "tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
     icon_size: 48 # min:48, max:256, default: 48
   macos:
     generate: true
-    image_path: "C:/Users/aavramescu/Desktop/XOGame/tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
+    image_path: "tic_tac_toe_ui/images/icons8-tic-tac-toe-100.png"
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your

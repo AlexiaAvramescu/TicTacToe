@@ -8,14 +8,9 @@ import 'package:tic_tac_toe_ui/cubit/game_state.dart';
 import 'package:tic_tac_toe_ui/models/game_button_model.dart';
 import 'package:tic_tac_toe_ui/models/meniu_button_model.dart';
 
-class GamePage extends StatefulWidget {
+class GamePage extends StatelessWidget {
   const GamePage({super.key});
 
-  @override
-  State<GamePage> createState() => _GamePageState();
-}
-
-class _GamePageState extends State<GamePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,7 +110,7 @@ class _GamePageState extends State<GamePage> {
         BlocBuilder<GameCubit, GameState>(
           builder: (context, state) {
             return Text(
-              "${state.turn!.name} 's turn",
+              "${state.turn!.name}'s turn",
               style:
                   const TextStyle(fontSize: 50, color: Color.fromARGB(255, 56, 117, 58), fontStyle: FontStyle.normal),
             );

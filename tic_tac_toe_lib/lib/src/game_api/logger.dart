@@ -3,11 +3,18 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 
 Logger loggerType(Type type) => Logger(
-    printer: CustomPrinter(type.toString()),
-    output: SaveToFile(filePath: 'C:/Users/aavramescu/Desktop/XOGame/tic_tac_toe_lib/lib/src/game_api/logger.txt'));
+      printer: CustomPrinter(type.toString()),
+      output: SaveToFile(filePath: '../tic_tac_toe_lib/lib/src/game_api/logger.txt'),
+    );
+
+Logger loggerType2(String str) => Logger(printer: CustomPrinter(str));
 
 logger(Type type) {
   return loggerType(type);
+}
+
+logger2(String str) {
+  return loggerType2(str);
 }
 
 class CustomPrinter extends LogPrinter {

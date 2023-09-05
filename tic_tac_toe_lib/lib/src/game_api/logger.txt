@@ -1,11 +1,5 @@
 💡 Board: Board initialized.
 💡 Game: Listener added to class Game.
-💡 Board: Board initialized.
-💡 Board: Board reset.
-💡 Game: Game has been restarted.
-💡 Game: Listeners notifyed of Restart.
-💡 Game: Strategy set to null.
-💡 Game: Game state changed to EGameState.playing
-💡 Board: Player EMark.X made move.
-💡 Game: Listeners notifyed of MarkMade.
-💡 Game: Timer switched to O.
+💡 Game: Listener removed from class Game.
+💡 Game: Game state changes from EGameState.strategyNotSet to EGameState.oWon
+💡 Game: Game state changes from EGameState.strategyNotSet to EGameState.oWon

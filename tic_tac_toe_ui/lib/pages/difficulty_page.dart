@@ -31,35 +31,24 @@ class DificultyPage extends StatelessWidget {
     );
   }
 
+  Widget createMenuButton(BuildContext context, EStrategy strategy) {
+    return MeniuButton(
+        name: strategy.toString(),
+        onPressed: () {
+          context.read<GameCubit>().restart();
+          context.read<GameCubit>().strategy = strategy;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
+        });
+  }
+
   Column _buttons(BuildContext context) {
     return Column(
       children: [
-        MeniuButton(
-          name: 'Hard',
-          onPressed: () {
-            context.read<GameCubit>().restart();
-            context.read<GameCubit>().setStrategy(EStrategy.hard);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
-          },
-        ),
+        createMenuButton(context, EStrategy.hard),
         const SizedBox(height: 20),
-        MeniuButton(
-          name: 'Medium',
-          onPressed: () {
-            context.read<GameCubit>().restart();
-            context.read<GameCubit>().setStrategy(EStrategy.medium);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
-          },
-        ),
+        createMenuButton(context, EStrategy.medium),
         const SizedBox(height: 20),
-        MeniuButton(
-          name: 'Easy',
-          onPressed: () {
-            context.read<GameCubit>().restart();
-            context.read<GameCubit>().setStrategy(EStrategy.easy);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => const GamePage()));
-          },
-        ),
+        createMenuButton(context, EStrategy.easy),
         const SizedBox(height: 60),
       ],
     );

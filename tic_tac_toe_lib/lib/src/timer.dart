@@ -1,8 +1,8 @@
 import 'dart:async';
 
 class TimerClass {
-  final xTimer = Stopwatch();
-  final oTimer = Stopwatch();
+  final xStopwatch = Stopwatch();
+  final oStopwatch = Stopwatch();
   late final void Function() timerNotify;
   late final void Function() handleTimeout;
   late Timer timer;
@@ -15,32 +15,32 @@ class TimerClass {
   }
 
   void reset() {
-    xTimer.reset();
-    oTimer.reset();
+    xStopwatch.reset();
+    oStopwatch.reset();
 
-    xTimer.stop();
-    oTimer.stop();
+    xStopwatch.stop();
+    oStopwatch.stop();
 
     timer.cancel();
   }
 
   void switchTimer() {
-    if (xTimer.isRunning) {
-      xTimer.stop();
-      oTimer.start();
+    if (xStopwatch.isRunning) {
+      xStopwatch.stop();
+      oStopwatch.start();
     } else {
-      xTimer.start();
-      oTimer.stop();
+      xStopwatch.start();
+      oStopwatch.stop();
     }
   }
 
   void start() {
     timer = Timer.periodic(Duration(milliseconds: 10), (timer) {
       timerNotify();
-      handleTimeout();
+      if (xStopwatch.elapsed.inSeconds >= 20 || oStopwatch.elapsed.inSeconds >= 20) handleTimeout();
     });
-    xTimer.start();
+    xStopwatch.start();
   }
 
-  bool isRunning() => xTimer.isRunning || oTimer.isRunning ? true : false;
+  bool isRunning() => xStopwatch.isRunning || oStopwatch.isRunning ? true : false;
 }

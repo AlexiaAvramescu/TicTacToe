@@ -48,7 +48,7 @@ class Console extends IListener {
     }
   }
 
-  bool get isGameOver => _game.isGameOver;
+  bool get isGameOver => _game.isOver;
 
   void printBoard() {
     for (int i = 0; i < 3; i++) {
@@ -80,11 +80,6 @@ class Console extends IListener {
   void onGameOver(EGameState state) {
     printBoard();
     print(state);
-  }
-
-  @override
-  void onExit() {
-    print('Game exited.');
   }
 
   @override

@@ -35,9 +35,9 @@ class Game implements IGame {
   @override
   EGameState get state => _state;
   @override
-  bool get isGameOver => _state.isGameOver;
+  bool get isOver => _state.isGameOver;
   @override
-  EGameState? get gameResult => _state;
+  EGameState? get result => _state;
   @override
   MarkMatrix get board => _board.matrix;
 
@@ -62,7 +62,7 @@ class Game implements IGame {
     if (_strategy == null) _timer.start();
     _board.restart();
     _currentPlayer = EMark.X;
-    _state = EGameState.playing;
+    updateState(EGameState.playing);
     _gameLogger.i('Game has been restarted.');
     notifyRestart();
   }
@@ -76,7 +76,7 @@ class Game implements IGame {
     _board.makeMove(pos, _currentPlayer);
     verifyState();
 
-    if (isGameOver) {
+    if (isOver) {
       return;
     }
     _currentPlayer = _currentPlayer.opposite;
@@ -90,7 +90,7 @@ class Game implements IGame {
       _board.makeMove(pos, _currentPlayer);
       verifyState();
 
-      if (isGameOver) {
+      if (isOver) {
         return;
       }
       _currentPlayer = _currentPlayer.opposite;
@@ -120,6 +120,18 @@ class Game implements IGame {
     }
   }
 
+  // void removeListener2(IListener listener) {
+  //   int index = _listerers.indexWhere((elem) => elem == listener);
+
+  //   if (index != -1) {
+  //     _gameLogger.i('Listener removed from class Game.');
+  //     _listerers.removeAt(index);
+  //   } else {
+  //     _gameLogger.w('Listener not found to be removed from class Game.');
+  //     throw ListenerCanNotBeRemoved();
+  //   }
+  // }
+
   void notifyMarkMade() {
     for (var i = 0; i < _listerers.length; i++) {
       _gameLogger.i('Listeners notifyed of MarkMade.');
@@ -143,7 +155,7 @@ class Game implements IGame {
 
   void notifyTimerTic() {
     for (var i = 0; i < _listerers.length; i++) {
-      _listerers[i].onTimerTic(_timer.xTimer.elapsed, _timer.oTimer.elapsed);
+      _listerers[i].onTimerTic(_timer.xStopwatch.elapsed, _timer.oStopwatch.elapsed);
     }
   }
 
@@ -161,21 +173,15 @@ class Game implements IGame {
   }
 
   void updateState(EGameState state) {
+    _gameLogger.i('Game state changes from $_state to $state');
     _state = state;
-    _gameLogger.i('Game state changed to $_state');
   }
 
   void handleTimeout() {
-    if (_timer.xTimer.elapsed.inSeconds >= 20) {
-      updateState(EGameState.oWon);
-      _timer.reset();
-      notifyGameOver();
-    }
-    if (_timer.oTimer.elapsed.inSeconds >= 20) {
-      updateState(EGameState.xWon);
-      _timer.reset();
-      notifyGameOver();
-    }
+    EGameState newState = _currentPlayer == EMark.O ? EGameState.xWon : EGameState.oWon;
+    updateState(newState);
+    _timer.reset();
+    notifyGameOver();
   }
 
   bool isTimerRunning() => _timer.isRunning();

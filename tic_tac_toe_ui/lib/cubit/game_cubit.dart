@@ -3,23 +3,27 @@ import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 import 'package:tic_tac_toe_ui/cubit/game_state.dart';
 
 class GameCubit extends Cubit<GameState> implements IListener {
-  late final IGame game = IGame();
+  late IGame _game = IGame();
 
   GameCubit() : super(GameState()) {
-    game.addListener(this);
+    _game.addListener(this);
   }
 
-  void setStrategy(EStrategy? val) {
-    game.strategy = val;
+  set game(IGame game) {
+    _game.removeListener(this);
+    _game = game;
+    _game.addListener(this);
   }
+
+  set strategy(EStrategy? val) => _game.strategy = val;
 
   void restart() {
-    game.restart();
+    _game.restart();
   }
 
   void makeMove(Position pos) {
     try {
-      game.makeMove(pos);
+      _game.makeMove(pos);
     } on InvalidInputException catch (e) {
       print(e.message);
     } on StrategyGetMoveError catch (e) {
@@ -28,28 +32,23 @@ class GameCubit extends Cubit<GameState> implements IListener {
   }
 
   @override
-  void onExit() {
-    emit(GameState(board: game.board, turn: game.turn, state: game.state));
-  }
-
-  @override
-  void onGameOver(EGameState state) {
-    emit(GameState(board: game.board, turn: game.turn, state: game.state));
+  void onGameOver(EGameState gameState) {
+    emit(state.copyWith(board: _game.board, turn: _game.turn, state: _game.state));
   }
 
   @override
   void onMarkMade() {
-    emit(GameState(board: game.board, turn: game.turn, state: game.state));
+    emit(state.copyWith(board: _game.board, turn: _game.turn, state: _game.state));
   }
 
   @override
   void onReset() {
-    emit(GameState(board: game.board, turn: game.turn, state: game.state));
+    emit(state.copyWith(board: _game.board, turn: _game.turn, state: _game.state));
   }
 
   @override
   void onTimerTic(Duration xDuration, Duration oDuration) {
-    print('${oDuration.inSeconds} : ${xDuration.inSeconds}');
-    emit(GameState(board: game.board, turn: game.turn, state: game.state, xDuration: xDuration, oDuration: oDuration));
+    emit(state.copyWith(
+        board: _game.board, turn: _game.turn, state: _game.state, xDuration: xDuration, oDuration: oDuration));
   }
 }

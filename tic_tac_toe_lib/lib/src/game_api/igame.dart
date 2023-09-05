@@ -39,8 +39,8 @@ abstract class IGame {
 
   EMark get turn;
   EGameState get state;
-  bool get isGameOver;
-  EGameState? get gameResult;
+  bool get isOver;
+  EGameState? get result;
   MarkMatrix get board;
 
   set strategy(EStrategy? val);

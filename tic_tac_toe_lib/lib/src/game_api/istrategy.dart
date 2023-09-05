@@ -7,7 +7,21 @@ import 'package:tic_tac_toe_lib/tic_tac_toe_lib.dart';
 enum EStrategy {
   easy,
   medium,
-  hard,
+  hard;
+
+  @override
+  String toString() {
+    switch (this) {
+      case EStrategy.easy:
+        return "Easy";
+      case EStrategy.medium:
+        return "Medium";
+      case EStrategy.hard:
+        return "Hard";
+      default:
+        return "";
+    }
+  }
 }
 
 abstract class IStrategy {
